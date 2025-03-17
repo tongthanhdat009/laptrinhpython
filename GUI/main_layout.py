@@ -26,13 +26,10 @@ class MainLayout(QWidget):
         
 
         player_widget = MusicPlayerBar()
-        bot_layout = QVBoxLayout()
-        bot_layout.addWidget(player_widget)
-        bot_layout.setContentsMargins(0, 0, 0, 0)
-        bot_layout.setSpacing(0)
 
         main_layout.addLayout(center_layout)
-        main_layout.addLayout(bot_layout)
+        main_layout.addWidget(player_widget)
+        # main_layout.addLayout(bot_layout)
         
         self.setLayout(main_layout)
 
