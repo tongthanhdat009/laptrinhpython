@@ -1,0 +1,7 @@
+from PyQt6.QtWidgets import QApplication
+from MusicPlayerBar import MusicPlayerBar
+if __name__ == "__main__":
+    app = QApplication([])
+    player_bar = MusicPlayerBar()
+    player_bar.show()
+    app.exec()
