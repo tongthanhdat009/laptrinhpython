@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel
 
 class UserMenu(QWidget):
-    def __init__(self):
+    def __init__(self, switch_callback):
         super().__init__()
         self.setFixedSize(250, 650)
         self.setStyleSheet("background-color: #f2f2f2;")
