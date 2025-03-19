@@ -3,6 +3,7 @@ from user.UserMenu import UserMenu
 from user.UserContent import UserContent
 from user.MusicPlayerBar import MusicPlayerBar
 from admin.AdminMenu import AdminMenu
+from admin.GUIQuanLyBaiHat import GUIQuanLyBaiHat
 class MainLayout(QWidget):
     def __init__(self):
         super().__init__()
@@ -32,7 +33,11 @@ class MainLayout(QWidget):
         self.setLayout(main_layout)
 
     def switch_content(self, page):
-        print(page)
+        new_content = GUIQuanLyBaiHat()
+        self.layout().replaceWidget(self.content, new_content)
+        self.content.deleteLater()  # Giải phóng bộ nhớ widget cũ
+        self.content = new_content
+
 # Chạy ứng dụng
 if __name__ == "__main__":
     app = QApplication([])

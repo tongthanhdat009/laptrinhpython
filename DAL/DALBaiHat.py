@@ -1,8 +1,8 @@
 from DTO.DTOBaiHat import DTOBaiHat
-from dbconnector import dbconnector
-class BaiHatDAL:
+from dbconnector import Database
+class DALBaiHat:
     def __init__(self):
-        db = dbconnector.Database() # Lấy instance của Database
+        db = Database.Database() # Lấy instance của Database
         self.conn = db.get_connection()
         self.cursor = db.get_cursor()
 

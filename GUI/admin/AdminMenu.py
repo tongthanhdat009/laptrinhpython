@@ -26,7 +26,7 @@ class AdminMenu(QWidget):
         self.btn_manage_songs = QPushButton("Quản lý bài hát")
         self.btn_manage_songs.setStyleSheet("font-weight: bold; color: gray; font-size: 16px; text-align: left; padding: 5px;")
         self.btn_manage_songs.setFixedHeight(45)
-        self.btn_manage_songs.clicked.connect(lambda: switch_callback(0))
+        self.btn_manage_songs.clicked.connect(lambda: switch_callback("GUIQuanLyBaiHat"))
         layout.addWidget(self.btn_manage_songs)
 
         # Nút Quản lý ca sĩ
