@@ -15,7 +15,7 @@ class DALBaiHat:
                 MaBaiHat=row["MaBaiHat"],
                 NgayPhatHanh=row["NgayPhatHanh"],
                 TieuDe=row["TieuDe"],
-                Anh=row["Anh"],
+                Anh=row["AnhBaiHat"],
                 MaXuatXu=row["MaXuatXu"],
                 TenXuatXu=row["TenXuatXu"],
                 MaTheLoai=row["MaTheLoai"],
@@ -35,3 +35,10 @@ class DALBaiHat:
         self.cursor.execute(query, (MaBaiHat,))
         return [f"{row['MaCaSi']}-{row['TenCaSi']}" for row in self.cursor.fetchall()]
 
+    def layToanBoTenCaSi(self):
+        query = """
+            SELECT CaSi.MaCaSi, CaSi.TenCaSi 
+            FROM CaSi
+        """
+        self.cursor.execute(query)
+        return [f"{row['MaCaSi']}-{row['TenCaSi']}" for row in self.cursor.fetchall()]

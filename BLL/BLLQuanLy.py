@@ -1,4 +1,4 @@
-from DAL.DALBaiHat import DALBaiHat
+from DAL.DALQuanLyBaiHat import DALBaiHat
 class BLLQuanLy:
     def __init__(self):
         self.baiHatDAL = DALBaiHat()  # Khởi tạo DALBaiHat
@@ -13,3 +13,6 @@ class BLLQuanLy:
             baiHat.setCaSi(danhSachCaSi)  # Gán danh sách ca sĩ cho bài hát
 
         return dsBaiHat
+    
+    def layToanBoTenCaSi(self):
+        return self.baiHatDAL.layToanBoTenCaSi()
