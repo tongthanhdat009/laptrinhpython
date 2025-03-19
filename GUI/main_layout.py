@@ -4,6 +4,7 @@ from user.UserContent import UserContent
 from user.MusicPlayerBar import MusicPlayerBar
 from admin.AdminMenu import AdminMenu
 from admin.GUIQuanLyBaiHat import GUIQuanLyBaiHat
+from BLL.BLLQuanLy import BLLQuanLy
 class MainLayout(QWidget):
     def __init__(self):
         super().__init__()

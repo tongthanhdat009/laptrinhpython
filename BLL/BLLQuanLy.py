@@ -1,5 +1,4 @@
 from DAL.DALBaiHat import DALBaiHat
-
 class BLLQuanLy:
     def __init__(self):
         self.baiHatDAL = DALBaiHat()  # Khởi tạo DALBaiHat

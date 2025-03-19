@@ -1,13 +1,13 @@
 from DTO.DTOBaiHat import DTOBaiHat
-from dbconnector import Database
+from DAL.dbconnector import Database
 class DALBaiHat:
     def __init__(self):
-        db = Database.Database() # Lấy instance của Database
+        db = Database() # Lấy instance của Database
         self.conn = db.get_connection()
         self.cursor = db.get_cursor()
 
     def layTatCaBaiHat(self):
-        self.cursor.execute("SELECT * FROM BaiHat, TheLoai WHERE BaiHat.MaTheLoai = TheLoai.MaTheLoai AND BaiHat.MaXuatXu = XuatXu.MaXuatXu")
+        self.cursor.execute("SELECT * FROM baihat, theloai, xuatxu WHERE BaiHat.MaTheLoai = TheLoai.MaTheLoai AND BaiHat.MaXuatXu = XuatXu.MaXuatXu")
         results = self.cursor.fetchall()
         danhSachBaiHat = []
         for row in results:

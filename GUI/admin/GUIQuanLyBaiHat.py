@@ -1,5 +1,9 @@
+import sys
+import os
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QTableWidget, QTableWidgetItem, QHBoxLayout
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from BLL.BLLQuanLy import BLLQuanLy
+
 class GUIQuanLyBaiHat(QWidget):
     def __init__(self):
         super().__init__()
@@ -36,6 +40,12 @@ class GUIQuanLyBaiHat(QWidget):
         bll = BLLQuanLy()
         self.DSNhac = bll.layDanhSachBaiHat()
 
+        print(f"Số lượng bài hát lấy được: {len(self.DSNhac)}")
+        for baiHat in self.DSNhac:
+            print(f"ID: {baiHat.getMaBaiHat()}, Tiêu đề: {baiHat.getTieuDe()}, "
+                f"Thể loại: {baiHat.getTenTheLoai()}, Xuất xứ: {baiHat.getTenXuatXu()}, "
+                f"Ca sĩ: {', '.join(baiHat.getCaSi())}")
+
         self.table.setRowCount(len(self.DSNhac))
 
         for row, baiHat in enumerate(self.DSNhac):
@@ -43,6 +53,5 @@ class GUIQuanLyBaiHat(QWidget):
             self.table.setItem(row, 1, QTableWidgetItem(baiHat.getTieuDe()))
             self.table.setItem(row, 2, QTableWidgetItem(baiHat.getTenTheLoai()))
             self.table.setItem(row, 3, QTableWidgetItem(baiHat.getTenXuatXu()))
-            self.table.setItem(row, 4, QTableWidgetItem(", ".join(baiHat.getCaSi())))  # Hiển thị danh sách ca sĩ
-
-a = GUIQuanLyBaiHat()
+            self.table.setItem(row, 4, QTableWidgetItem(", ".join(baiHat.getCaSi())))
+        self.table.setStyleSheet("color: #000000;")

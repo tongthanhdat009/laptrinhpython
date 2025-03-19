@@ -40,3 +40,5 @@ class Database:
             self.connection.close()
             Database._instance = None  # Reset để có thể tạo lại nếu cần
             print("Đã đóng kết nối MySQL")
+
+            
