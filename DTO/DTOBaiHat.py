@@ -72,3 +72,4 @@ class DTOBaiHat:
 
     def setCaSi(self, CaSi: list):
         self.__CaSi = CaSi
+    

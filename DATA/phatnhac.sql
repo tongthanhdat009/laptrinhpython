@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 17, 2025 lúc 03:29 PM
+-- Thời gian đã tạo: Th3 20, 2025 lúc 05:52 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -31,7 +31,7 @@ CREATE TABLE `baihat` (
   `MaBaiHat` int(11) NOT NULL,
   `NgayPhatHanh` date DEFAULT NULL,
   `TieuDe` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Anh` varchar(255) DEFAULT NULL,
+  `AnhBaiHat` varchar(255) DEFAULT NULL,
   `MaXuatXu` int(11) DEFAULT NULL,
   `MaTheLoai` int(11) DEFAULT NULL,
   `FileNhac` varchar(255) DEFAULT NULL
@@ -41,27 +41,27 @@ CREATE TABLE `baihat` (
 -- Đang đổ dữ liệu cho bảng `baihat`
 --
 
-INSERT INTO `baihat` (`MaBaiHat`, `NgayPhatHanh`, `TieuDe`, `Anh`, `MaXuatXu`, `MaTheLoai`, `FileNhac`) VALUES
-(1, '2017-01-01', 'Nơi Này Có Anh', '..\\assets\\AnhBaiHat\\1.png', 1, 1, '..\\assets\\FileNhac\\1.mp3'),
-(2, '2018-05-01', 'Chạy Ngay Đi', '..\\assets\\AnhBaiHat\\2.png', 1, 1, '..\\assets\\FileNhac\\2.mp3'),
-(3, '2019-03-01', 'Có Chắc Yêu Là Đây', '..\\assets\\AnhBaiHat\\3.png', 1, 1, '..\\assets\\FileNhac\\3.mp3'),
-(4, '2020-01-01', 'Muộn Rồi Mà Sao Còn', '..\\assets\\AnhBaiHat\\4.png', 1, 1, '..\\assets\\FileNhac\\4.mp3'),
-(5, '2021-06-01', 'Chúng Ta Không Thuộc Về Nhau', '..\\assets\\AnhBaiHat\\5.png', 1, 1, '..\\assets\\FileNhac\\5.mp3'),
-(6, '2022-02-01', 'Cơn Mưa Ngang Qua', '..\\assets\\AnhBaiHat\\6.png', 1, 1, '..\\assets\\FileNhac\\6.mp3'),
-(7, '2021-09-04', 'Không Phải Dạng Vừa Đâu', '..\\assets\\AnhBaiHat\\7.png', 1, 1, '..\\assets\\FileNhac\\7.mp3'),
-(8, '2018-05-25', 'Hơn Cả Yêu', '..\\assets\\AnhBaiHat\\8.png', 1, 1, '..\\assets\\FileNhac\\8.mp3'),
-(9, '2018-06-15', 'Ánh Nắng Của Anh', '..\\assets\\AnhBaiHat\\9.png', 1, 1, '..\\assets\\FileNhac\\9.mp3'),
-(10, '2019-03-10', 'Cứ Yêu Đi', '..\\assets\\AnhBaiHat\\10.png', 1, 1, '..\\assets\\FileNhac\\10.mp3'),
-(11, '2020-07-30', 'Ta Còn Yêu Nhau', '..\\assets\\AnhBaiHat\\11.png', 1, 1, '..\\assets\\FileNhac\\11.mp3'),
-(12, '2021-04-18', 'Năm Ấy', '..\\assets\\AnhBaiHat\\12.png', 1, 1, '..\\assets\\FileNhac\\12.mp3'),
-(13, '2017-07-01', 'Em Gái Mưa', '..\\assets\\AnhBaiHat\\13.png', 1, 1, '..\\assets\\FileNhac\\13.mp3'),
-(14, '2017-08-01', 'Duyên Mình Lỡ', '..\\assets\\AnhBaiHat\\14.png', 1, 1, '..\\assets\\FileNhac\\14.mp3'),
-(15, '2018-03-01', 'Cho Em Gần Anh Thêm Chút Nữa', '..\\assets\\AnhBaiHat\\15.png', 1, 1, '..\\assets\\FileNhac\\15.mp3'),
-(21, '2019-08-10', 'Bài này chill phết', '..\\assets\\AnhBaiHat\\21.png', 1, 2, '..\\assets\\FileNhac\\21.mp3'),
-(22, '2020-05-15', 'Lối nhỏ', '..\\assets\\AnhBaiHat\\22.png', 1, 2, '..\\assets\\FileNhac\\22.mp3'),
-(23, '2021-04-01', 'Ngày khác lạ', '..\\assets\\AnhBaiHat\\23.png', 1, 2, '..\\assets\\FileNhac\\23.mp3'),
-(24, '2021-06-30', 'Anh đếch cần gì nhiều ngoài em', '..\\assets\\AnhBaiHat\\24.png', 1, 2, '..\\assets\\FileNhac\\24.mp3'),
-(25, '2022-02-20', 'Đưa nhau đi trốn', '..\\assets\\AnhBaiHat\\25.png', 1, 2, '..\\assets\\FileNhac\\25.mp3');
+INSERT INTO `baihat` (`MaBaiHat`, `NgayPhatHanh`, `TieuDe`, `AnhBaiHat`, `MaXuatXu`, `MaTheLoai`, `FileNhac`) VALUES
+(1, '2017-01-01', 'Nơi Này Có Anh', '/assets/AnhBaiHat/1.png', 1, 1, 'laptrinhpython/\\assets\\FileNhac\\1.mp3'),
+(2, '2018-05-01', 'Chạy Ngay Đi', '/assets/AnhBaiHat/2.png', 1, 1, '..\\assets\\FileNhac\\2.mp3'),
+(3, '2019-03-01', 'Có Chắc Yêu Là Đây', '/assets/AnhBaiHat/3.png', 1, 1, '..\\assets\\FileNhac\\3.mp3'),
+(4, '2020-01-01', 'Muộn Rồi Mà Sao Còn', '/assets/AnhBaiHat/4.png', 1, 1, '..\\assets\\FileNhac\\4.mp3'),
+(5, '2021-06-01', 'Chúng Ta Không Thuộc Về Nhau', '/assets/AnhBaiHat/5.png', 1, 1, '..\\assets\\FileNhac\\5.mp3'),
+(6, '2022-02-01', 'Cơn Mưa Ngang Qua', '/assets/AnhBaiHat/6.png', 1, 1, '..\\assets\\FileNhac\\6.mp3'),
+(7, '2021-09-04', 'Không Phải Dạng Vừa Đâu', '/assets/AnhBaiHat/7.png', 1, 1, '..\\assets\\FileNhac\\7.mp3'),
+(8, '2018-05-25', 'Hơn Cả Yêu', '/assets/AnhBaiHat/8.png', 1, 1, '..\\assets\\FileNhac\\8.mp3'),
+(9, '2018-06-15', 'Ánh Nắng Của Anh', '/assets/AnhBaiHat/9.png', 1, 1, '..\\assets\\FileNhac\\9.mp3'),
+(10, '2019-03-10', 'Cứ Yêu Đi', '/assets/AnhBaiHat/10.png', 1, 1, '..\\assets\\FileNhac\\10.mp3'),
+(11, '2020-07-30', 'Ta Còn Yêu Nhau', '/assets/AnhBaiHat/11.png', 1, 1, '..\\assets\\FileNhac\\11.mp3'),
+(12, '2021-04-18', 'Năm Ấy', '/assets/AnhBaiHat/12.png', 1, 1, '..\\assets\\FileNhac\\12.mp3'),
+(13, '2017-07-01', 'Em Gái Mưa', '/assets/AnhBaiHat/13.png', 1, 1, '..\\assets\\FileNhac\\13.mp3'),
+(14, '2017-08-01', 'Duyên Mình Lỡ', '/assets/AnhBaiHat/14.png', 1, 1, '..\\assets\\FileNhac\\14.mp3'),
+(15, '2018-03-01', 'Cho Em Gần Anh Thêm Chút Nữa', '/assets/AnhBaiHat/15.png', 1, 1, '..\\assets\\FileNhac\\15.mp3'),
+(21, '2019-08-10', 'Bài này chill phết', '/assets/AnhBaiHat/21.png', 1, 2, '..\\assets\\FileNhac\\21.mp3'),
+(22, '2020-05-15', 'Lối nhỏ', '/assets/AnhBaiHat/22.png', 1, 2, '..\\assets\\FileNhac\\22.mp3'),
+(23, '2021-04-01', 'Ngày khác lạ', '/assets/AnhBaiHat/23.png', 1, 2, '..\\assets\\FileNhac\\23.mp3'),
+(24, '2021-06-30', 'Anh đếch cần gì nhiều ngoài em', '/assets/AnhBaiHat/24.png', 1, 2, '..\\assets\\FileNhac\\24.mp3'),
+(25, '2022-02-20', 'Đưa nhau đi trốn', '/assets/AnhBaiHat/25.png', 1, 2, '..\\assets\\FileNhac\\25.mp3');
 
 -- --------------------------------------------------------
 
@@ -75,14 +75,14 @@ CREATE TABLE `casi` (
   `NgheDanh` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `NgaySinh` date DEFAULT NULL,
   `MoTa` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Anh` varchar(255) DEFAULT NULL
+  `AnhCaSi` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `casi`
 --
 
-INSERT INTO `casi` (`MaCaSi`, `TenCaSi`, `NgheDanh`, `NgaySinh`, `MoTa`, `Anh`) VALUES
+INSERT INTO `casi` (`MaCaSi`, `TenCaSi`, `NgheDanh`, `NgaySinh`, `MoTa`, `AnhCaSi`) VALUES
 (1, 'Sơn Tùng M-TP', 'Sơn Tùng M-TP', '1994-07-05', 'Ca sĩ, nhạc sĩ nổi tiếng với nhiều ca khúc hit.', '..\\assets\\CaSi\\1.png'),
 (2, 'Đức Phúc', 'Đức Phúc', '1996-10-19', 'Ca sĩ nổi bật với giọng hát mạnh mẽ và các ca khúc yêu thích.', '..\\assets\\CaSi\\2.png'),
 (3, 'Hương Tràm', 'Hương Tràm', '1995-05-10', 'Ca sĩ nổi bật với giọng hát đầy cảm xúc và các bài hit.', '..\\assets\\CaSi\\3.png'),
@@ -414,7 +414,7 @@ ALTER TABLE `yeuthich`
 -- AUTO_INCREMENT cho bảng `baihat`
 --
 ALTER TABLE `baihat`
-  MODIFY `MaBaiHat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `MaBaiHat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT cho bảng `casi`

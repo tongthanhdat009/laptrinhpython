@@ -42,3 +42,59 @@ class DALBaiHat:
         """
         self.cursor.execute(query)
         return [f"{row['MaCaSi']}-{row['TenCaSi']}" for row in self.cursor.fetchall()]
+
+    def themBaiHat(self, baiHat: DTOBaiHat):
+        try:
+            query = """
+                INSERT INTO BaiHat (MaBaiHat, NgayPhatHanh, TieuDe, AnhBaiHat, MaXuatXu, MaTheLoai, FileNhac)
+                VALUES (%s, STR_TO_DATE(%s, '%Y-%m-%d'), %s, %s, %s, %s, %s)
+            """
+            self.cursor.execute(query, (
+                int(baiHat.getMaBaiHat()), baiHat.getNgayPhatHanh(), baiHat.getTieuDe(),
+                baiHat.getAnh(), int(baiHat.getMaXuatXu()), int(baiHat.getMaTheLoai()),
+                baiHat.getFileNhac()
+            ))
+            self.conn.commit()
+            return self.cursor.lastrowid
+        except Exception as e:
+            print("Lỗi khi thêm bài hát:", e)
+    def themThucHien(self, maBaiHat: int, maCaSi: int):
+        try:
+            query = """
+                INSERT INTO ThucHien (MaBaiHat, MaCaSi) VALUES (%s, %s)
+            """
+            self.cursor.execute(query, (maBaiHat, maCaSi))
+            self.conn.commit()
+        except Exception as e:
+            print("Lỗi khi thêm thực hiện:", e)
+    def xoaBaiHat(self, maBaiHat: str):
+        try:
+            self.cursor.execute("DELETE FROM BaiHat WHERE MaBaiHat = %s", (maBaiHat,))
+            self.conn.commit()
+            return "Thành công"
+        except Exception as e:
+            print("Lỗi khi xóa bài hát:", e)
+            return "Thất bại"
+
+    def kiemTraTenTonTai(self, tenBaiHat: str):
+        try:
+            self.cursor.execute("SELECT COUNT(*) FROM BaiHat WHERE TieuDe = %s", (tenBaiHat,))
+            result = self.cursor.fetchone()
+            return result[0] > 0
+        except Exception as e:
+            print("Lỗi khi kiểm tra tên bài hát:", e)
+            return False
+    def layTenTheLoai(self): 
+        query = """
+            SELECT MaTheLoai, TenTheLoai 
+            FROM theloai
+        """
+        self.cursor.execute(query)
+        return [f"{row['MaTheLoai']}-{row['TenTheLoai']}" for row in self.cursor.fetchall()]
+    def layTenXuatXu(self): 
+        query = """
+            SELECT MaXuatXu, TenXuatXu 
+            FROM xuatxu
+        """
+        self.cursor.execute(query)
+        return [f"{row['MaXuatXu']}-{row['TenXuatXu']}" for row in self.cursor.fetchall()]

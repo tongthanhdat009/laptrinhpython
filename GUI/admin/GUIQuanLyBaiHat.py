@@ -6,7 +6,7 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtGui import QFont, QPixmap
 from PyQt6.QtCore import Qt
-
+from admin.GUIThemBaiHat import GUIThemBaiHat
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from BLL.BLLQuanLy import BLLQuanLy
 
@@ -33,6 +33,7 @@ class GUIQuanLyBaiHat(QWidget):
 
         self.btn_them = QPushButton("Thêm")
         self.btn_them.setStyleSheet("background-color: black; color: white; padding: 10px; font-size: 16px; border-radius: 5px;")
+        self.btn_them.clicked.connect(self.BamNutThem)
 
         # Input tìm kiếm tên bài hát
         self.search_title = QLineEdit()
@@ -215,3 +216,6 @@ class GUIQuanLyBaiHat(QWidget):
         ten_bai_hat = self.search_title.text()  # Lấy tên bài hát từ input
         ten_ca_si = self.search_singer.currentText()  # Lấy tên ca sĩ từ combobox
         self.timKiemBaiHat(ten_bai_hat, ten_ca_si)  # Gọi hàm tìm kiếm
+    def BamNutThem(self):
+        dialog = GUIThemBaiHat()
+        dialog.exec()
