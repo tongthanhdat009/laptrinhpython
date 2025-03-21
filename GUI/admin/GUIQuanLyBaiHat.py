@@ -134,8 +134,6 @@ class GUIQuanLyBaiHat(QWidget):
 
     def layDSNhac(self):
         # Lấy thư mục gốc của project
-        thu_muc_goc = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
-        print(f"📂 Thư mục gốc: {thu_muc_goc}")  # Debug
         self.table.setRowCount(len(self.DSNhacXuat))
 
         for row, baiHat in enumerate(self.DSNhacXuat):
@@ -148,20 +146,15 @@ class GUIQuanLyBaiHat(QWidget):
 
             # Lấy đường dẫn ảnh từ SQL và xử lý
             duong_dan_sql = baiHat.getAnh().lstrip("\\/")  # Xóa dấu '\' hoặc '/' đầu chuỗi nếu có
-            duong_dan_anh = os.path.normpath(os.path.join(thu_muc_goc, duong_dan_sql))
-
-            # Kiểm tra nếu ảnh không tồn tại, thay thế bằng ảnh mặc định
-            if not os.path.isfile(duong_dan_anh):
-                print(f"⚠️ Không tìm thấy ảnh: {duong_dan_anh}")
 
             # Hiển thị ảnh trong QLabel
             label_image = QLabel()
-            pixmap = QPixmap(duong_dan_anh)
+            pixmap = QPixmap(duong_dan_sql)
             if not pixmap.isNull():
                 pixmap = pixmap.scaled(80, 80, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
                 label_image.setPixmap(pixmap)
             else:
-                print(f"⚠️ Không thể load ảnh: {duong_dan_anh}")
+                print(f"⚠️ Không thể load ảnh: {duong_dan_sql}")
             label_image.setAlignment(Qt.AlignmentFlag.AlignCenter)
             self.table.setCellWidget(row, 1, label_image)
 
