@@ -1,5 +1,7 @@
 import sys
 import os
+import re
+import shutil
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QLabel, QLineEdit, QComboBox, QPushButton, QFileDialog, 
     QHBoxLayout, QWidget, QScrollArea, QCompleter, QDateEdit, QMessageBox
@@ -174,45 +176,87 @@ class GUIThemBaiHat(QDialog):
     def xoa_ca_si(self, container):
         self.ca_si_layout.removeWidget(container)
         container.deleteLater()
-    
+
     def them_bai_hat(self):
         ten_bai_hat = self.input_ten_bai_hat.text()
-        ngay_phat_hanh = self.date_ngay_phat_hanh.date().toString("yyyy-MM-dd")  # Lấy ngày phát hành
+        ngay_phat_hanh = self.date_ngay_phat_hanh.date().toString("yyyy-MM-dd")
         xuat_xu = self.combo_xuat_xu.currentText()
         the_loai = self.combo_the_loai.currentText()
         file_nhac = self.input_file_nhac.text()
         anh_bia = self.duong_dan_anh
-        
-        # Lấy danh sách ca sĩ từ các ComboBox
+
+        # ✅ **Lấy danh sách mã ca sĩ**
         ca_si = []
         for i in range(self.ca_si_layout.count()):
             widget = self.ca_si_layout.itemAt(i).widget()
             if widget:
                 combo_box = widget.layout().itemAt(0).widget()
-                ca_si.append(combo_box.currentText())
+                text_ca_si = combo_box.currentText()
+                if text_ca_si:  
+                    ca_si.append(text_ca_si)  # Thêm toàn bộ chuỗi vào danh sách
 
-        # Cần truyền mã xuất xứ và thể loại (có thể dùng chỉ mục của combobox)
-        ma_xuat_xu = self.combo_xuat_xu.currentIndex() + 1
-        ma_the_loai = self.combo_the_loai.currentIndex() + 1
+        # ✅ **Lấy mã bài hát lớn nhất + 1**
+        ma_bai_hat = self.bll.layMaBaiHat()
 
-        # Tạo đối tượng DTOBaiHat
+        # ✅ **Tạo thư mục nếu chưa có**
+        assets_dir = "assets/AnhBaiHat"
+        assets_mp3 = "assets/FileNhac"
+        os.makedirs(assets_dir, exist_ok=True)
+        os.makedirs(assets_mp3, exist_ok=True)
+
+        # ✅ **Đường dẫn mới**
+        duong_dan_moi_anh = f"/assets/AnhBaiHat/{ma_bai_hat}.png"
+        duong_dan_moi_nhac = f"/assets/FileNhac/{ma_bai_hat}.mp3"
+
+        try:
+            # ✅ **Copy ảnh nếu không phải ảnh mặc định**
+            if os.path.exists(anh_bia) and os.path.basename(anh_bia) != "0.png":
+                shutil.copy(anh_bia, os.path.join(assets_dir, f"{ma_bai_hat}.png"))
+            else:
+                duong_dan_moi_anh = "/assets/AnhBaiHat/0.png"
+
+            # ✅ **Copy file nhạc**
+            if os.path.exists(file_nhac):
+                shutil.copy(file_nhac, os.path.join(assets_mp3, f"{ma_bai_hat}.mp3"))
+
+        except Exception as e:
+            self.show_info_message("Lỗi", f"Lỗi sao chép file: {str(e)}")
+            return
+
+        # ✅ **Tạo đối tượng DTOBaiHat**
         bai_hat = DTOBaiHat(
-            MaBaiHat=0,  # Tạm thời đặt 0, sẽ được cập nhật sau
+            MaBaiHat=ma_bai_hat,
             NgayPhatHanh=ngay_phat_hanh,
             TieuDe=ten_bai_hat,
-            Anh=anh_bia,  # Cần chuyển thành đường dẫn nếu lưu vào DB
-            MaXuatXu=ma_xuat_xu,
+            Anh=duong_dan_moi_anh,
+            MaXuatXu=self.combo_xuat_xu.currentIndex() + 1,
             TenXuatXu=xuat_xu,
-            MaTheLoai=ma_the_loai,
+            MaTheLoai=self.combo_the_loai.currentIndex() + 1,
             TenTheLoai=the_loai,
-            FileNhac=file_nhac,
-            CaSi=ca_si
+            FileNhac=duong_dan_moi_nhac,
+            CaSi=ca_si  # Chỉ lấy mã ca sĩ
         )
-        self.show_info_message("Thông báo", self.bll.themBaiHat(bai_hat))
+
+        # ✅ **Thêm vào database**
+        check = bai_hat.check()
+        if check == "Hợp lệ":
+            result = self.bll.themBaiHat(bai_hat)
+            if result == "Thành công":
+                self.show_info_message("Thông báo", "Thêm bài hát thành công!")
+            else:
+                self.show_info_message("Lỗi", result)
+        else:
+            self.show_info_message("Lỗi", check)
+
+
+
+
     def show_info_message(self, title, message):
+        if isinstance(message, list):
+            message = ", ".join(map(str, message))  # Chuyển danh sách thành chuỗi
         msg_box = QMessageBox()
-        msg_box.setIcon(QMessageBox.Icon.Information)
         msg_box.setWindowTitle(title)
         msg_box.setText(message)
         msg_box.exec()
+
 

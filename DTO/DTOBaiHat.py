@@ -1,3 +1,4 @@
+import os
 class DTOBaiHat:
     def __init__(self, MaBaiHat: int, NgayPhatHanh: str, TieuDe: str, Anh: str, MaXuatXu: int, TenXuatXu: str, MaTheLoai: int, TenTheLoai: str, FileNhac: str, CaSi: list):
         self.__MaBaiHat = MaBaiHat
@@ -72,4 +73,27 @@ class DTOBaiHat:
 
     def setCaSi(self, CaSi: list):
         self.__CaSi = CaSi
+
+    def check(self):
+        errors = []
+
+        # Kiểm tra tiêu đề bài hát
+        if not isinstance(self.__TieuDe, str) or not (1 <= len(self.__TieuDe) <= 255):
+            errors.append("Tên bài hát không hợp lệ! Độ dài phải từ 1-255 ký tự.")
+
+        # Kiểm tra file ảnh
+        valid_image_exts = {".jpg", ".jpeg", ".png", ".gif"}
+        if not isinstance(self.__Anh, str) or os.path.splitext(self.__Anh)[1].lower() not in valid_image_exts:
+            errors.append("Ảnh bìa không hợp lệ! Chỉ chấp nhận các định dạng: jpg, jpeg, png, gif.")
+
+        # Kiểm tra file nhạc
+        valid_audio_exts = {".mp3", ".wav", ".flac", ".aac"}
+        if not isinstance(self.__FileNhac, str) or os.path.splitext(self.__FileNhac)[1].lower() not in valid_audio_exts:
+            errors.append("File nhạc không hợp lệ! Chỉ chấp nhận các định dạng: mp3, wav, flac, aac.")
+
+        # Kiểm tra danh sách ca sĩ
+        if not isinstance(self.__CaSi, list) or not all(isinstance(ca_si, str) and ca_si for ca_si in self.__CaSi):
+            errors.append("Danh sách ca sĩ không hợp lệ! Phải là một danh sách chứa tên ca sĩ hợp lệ.")
+
+        return errors if errors else "Hợp lệ"
     

@@ -138,7 +138,6 @@ class GUIQuanLyBaiHat(QWidget):
 
         for row, baiHat in enumerate(self.DSNhacXuat):
 
-            print(baiHat.getCaSi())
             item_id = QTableWidgetItem(f"#{baiHat.getMaBaiHat()}")
             item_id.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             item_id.setFont(QFont("Arial Black", 20, QFont.Weight.Bold))  # 🔹 Chữ to, đậm
@@ -193,6 +192,7 @@ class GUIQuanLyBaiHat(QWidget):
             btn_xoa = QPushButton("Xóa")
             btn_xoa.setStyleSheet("background-color: #FF0000; color: white; padding: 5px; font-size: 14px; border-radius: 3px;")
             self.table.setCellWidget(row, 6, btn_xoa)
+            
     def timKiemBaiHat(self, tenBaiHat: str, tenCaSi: str):
         # Lọc danh sách bài hát theo tên bài hát
         print(tenCaSi)

@@ -47,17 +47,37 @@ class DALBaiHat:
         try:
             query = """
                 INSERT INTO BaiHat (MaBaiHat, NgayPhatHanh, TieuDe, AnhBaiHat, MaXuatXu, MaTheLoai, FileNhac)
-                VALUES (%s, STR_TO_DATE(%s, '%Y-%m-%d'), %s, %s, %s, %s, %s)
+                VALUES (%s, STR_TO_DATE(%s, '%%Y-%%m-%%d'), %s, %s, %s, %s, %s)
             """
             self.cursor.execute(query, (
-                int(baiHat.getMaBaiHat()), baiHat.getNgayPhatHanh(), baiHat.getTieuDe(),
-                baiHat.getAnh(), int(baiHat.getMaXuatXu()), int(baiHat.getMaTheLoai()),
+                baiHat.getMaBaiHat(),
+                baiHat.getNgayPhatHanh(),
+                baiHat.getTieuDe(),
+                baiHat.getAnh(),
+                int(baiHat.getMaXuatXu()),
+                int(baiHat.getMaTheLoai()),
                 baiHat.getFileNhac()
             ))
             self.conn.commit()
-            return self.cursor.lastrowid
+            return "Thành công"  # Trả về ID của bản ghi vừa thêm
         except Exception as e:
             print("Lỗi khi thêm bài hát:", e)
+            return str(e)  # Trả về lỗi dưới dạng chuỗi để GUI có thể hiển thị
+        
+    def layMaBaiHat(self):
+        try:
+            self.cursor.execute("SELECT COALESCE(MAX(MaBaiHat), 0) + 1 AS NextID FROM baihat")
+            result = self.cursor.fetchone()
+            if result and "NextID" in result:
+                return result["NextID"]
+            else:
+                return 1
+        except Exception as e:
+            print("Lỗi:", e)
+            return None
+
+
+    
     def themThucHien(self, maBaiHat: int, maCaSi: int):
         try:
             query = """
@@ -67,6 +87,7 @@ class DALBaiHat:
             self.conn.commit()
         except Exception as e:
             print("Lỗi khi thêm thực hiện:", e)
+
     def xoaBaiHat(self, maBaiHat: str):
         try:
             self.cursor.execute("DELETE FROM BaiHat WHERE MaBaiHat = %s", (maBaiHat,))
@@ -78,6 +99,7 @@ class DALBaiHat:
 
     def kiemTraTenTonTai(self, tenBaiHat: str):
         try:
+            print(tenBaiHat)
             self.cursor.execute("SELECT COUNT(*) FROM BaiHat WHERE TieuDe = %s", (tenBaiHat,))
             result = self.cursor.fetchone()
             return result[0] > 0
