@@ -4,6 +4,9 @@ from user.UserContent import UserContent
 from user.MusicPlayerBar import MusicPlayerBar
 from admin.AdminMenu import AdminMenu
 from admin.GUIQuanLyBaiHat import GUIQuanLyBaiHat
+from admin.GUIQuanLyDanhSachPhatHeThong import GUIQuanLyDanhSachPhatHeThong
+from admin.GUIQuanLyCaSi import GUIQuanLyCaSi
+from admin.GUIQuanLyNguoiDung import GUIQuanLyNguoiDung
 class MainLayout(QWidget):
     def __init__(self):
         super().__init__()
@@ -23,6 +26,8 @@ class MainLayout(QWidget):
         
         # Nội dung bên phải
         self.content = UserContent()
+        self.content = GUIQuanLyBaiHat()
+        
         center_layout.addWidget(self.content)
         
         player_widget = MusicPlayerBar()
@@ -33,10 +38,21 @@ class MainLayout(QWidget):
         self.setLayout(main_layout)
 
     def switch_content(self, page):
-        new_content = GUIQuanLyBaiHat()
-        self.layout().replaceWidget(self.content, new_content)
-        self.content.deleteLater()  # Giải phóng bộ nhớ widget cũ
-        self.content = new_content
+        pages = {
+            "GUIQuanLyBaiHat": GUIQuanLyBaiHat,
+            "GUIQuanLyCaSi": GUIQuanLyCaSi,
+            "GUIQuanLyDanhSachPhatHeThong": GUIQuanLyDanhSachPhatHeThong,
+            "GUIQuanLyNguoiDung": GUIQuanLyNguoiDung,
+        }
+
+        new_content = pages.get(page, None)  # Lấy class từ dictionary, nếu không có thì None
+
+        if new_content:  # Chỉ thay thế nếu tìm thấy trang hợp lệ
+            new_content = new_content()
+            self.layout().replaceWidget(self.content, new_content)
+            self.content.deleteLater()
+            self.content = new_content
+
 
 # Chạy ứng dụng
 if __name__ == "__main__":

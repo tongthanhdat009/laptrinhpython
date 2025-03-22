@@ -33,14 +33,21 @@ class AdminMenu(QWidget):
         self.btn_manage_artists = QPushButton("Quản lý ca sĩ")
         self.btn_manage_artists.setStyleSheet("font-weight: bold; color: gray; font-size: 16px; text-align: left; padding: 5px;")
         self.btn_manage_artists.setFixedHeight(45)
-        self.btn_manage_artists.clicked.connect(lambda: switch_callback(1))
+        self.btn_manage_artists.clicked.connect(lambda: switch_callback("GUIQuanLyCaSi"))
         layout.addWidget(self.btn_manage_artists)
 
         # Nút Tạo danh sách phát
-        self.btn_create_playlist = QPushButton("Tạo danh sách phát")
+        self.btn_create_playlist = QPushButton("Quản lý danh sách phát")
         self.btn_create_playlist.setStyleSheet("font-weight: bold; color: gray; font-size: 16px; text-align: left; padding: 5px;")
         self.btn_create_playlist.setFixedHeight(45)
-        self.btn_create_playlist.clicked.connect(lambda: switch_callback(2))
+        self.btn_create_playlist.clicked.connect(lambda: switch_callback("GUIQuanLyDanhSachPhatHeThong"))
+        layout.addWidget(self.btn_create_playlist)
+        
+        # Nút Quản lý người dùng
+        self.btn_create_playlist = QPushButton("Quản lý người dùng")
+        self.btn_create_playlist.setStyleSheet("font-weight: bold; color: gray; font-size: 16px; text-align: left; padding: 5px;")
+        self.btn_create_playlist.setFixedHeight(45)
+        self.btn_create_playlist.clicked.connect(lambda: switch_callback("GUIQuanLyNguoiDung"))
         layout.addWidget(self.btn_create_playlist)
 
 
