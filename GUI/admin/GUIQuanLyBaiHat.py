@@ -2,7 +2,7 @@ import sys
 import os
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QPushButton, QTableWidget, QTableWidgetItem,
-    QHBoxLayout, QLabel, QLineEdit, QComboBox, QCompleter
+    QHBoxLayout, QLabel, QLineEdit, QComboBox, QCompleter, QMessageBox
 )
 from PyQt6.QtGui import QFont, QPixmap
 from PyQt6.QtCore import Qt
@@ -192,7 +192,26 @@ class GUIQuanLyBaiHat(QWidget):
             btn_xoa = QPushButton("Xóa")
             btn_xoa.setStyleSheet("background-color: #FF0000; color: white; padding: 5px; font-size: 14px; border-radius: 3px;")
             self.table.setCellWidget(row, 6, btn_xoa)
-            
+            btn_xoa.clicked.connect(lambda checked, ma=baiHat.getMaBaiHat(): self.on_xoa_clicked(ma))
+
+    def on_xoa_clicked(self, ma_bai_hat):
+        reply = QMessageBox.question(
+            self, "Xác nhận xóa", 
+            f"Bạn có chắc chắn muốn xóa bài hát có mã {ma_bai_hat} không?", 
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, 
+            QMessageBox.StandardButton.No
+        )
+
+        if reply == QMessageBox.StandardButton.Yes:
+            result = self.bll.xoaBaiHat(ma_bai_hat)  
+            if result == "Thành công":
+                QMessageBox.information(self, "Thông báo", "Xóa bài hát thành công!")
+                self.DSNhacXuat = self.bll.layDanhSachBaiHat()  # Cập nhật lại danh sách
+                self.layDSNhac()  # Load lại danh sách bài hát
+            else:
+                QMessageBox.critical(self, "Lỗi", "Xóa bài hát thất bại!")
+
+       
     def timKiemBaiHat(self, tenBaiHat: str, tenCaSi: str):
         # Lọc danh sách bài hát theo tên bài hát
         print(tenCaSi)
@@ -205,10 +224,12 @@ class GUIQuanLyBaiHat(QWidget):
             ]
         self.DSNhacXuat = filtered_bai_hat
         self.layDSNhac()
+
     def BamTimKiem(self):
         ten_bai_hat = self.search_title.text()  # Lấy tên bài hát từ input
         ten_ca_si = self.search_singer.currentText()  # Lấy tên ca sĩ từ combobox
         self.timKiemBaiHat(ten_bai_hat, ten_ca_si)  # Gọi hàm tìm kiếm
+
     def BamNutThem(self):
-        dialog = GUIThemBaiHat()
+        dialog = GUIThemBaiHat(self,self.DSNhac)
         dialog.exec()

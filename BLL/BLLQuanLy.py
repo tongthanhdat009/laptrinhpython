@@ -15,18 +15,18 @@ class BLLQuanLy:
     
     def layToanBoTenCaSi(self):
         return self.baiHatDAL.layToanBoTenCaSi()
+    
     def layMaBaiHat(self):
         return self.baiHatDAL.layMaBaiHat()
     
     def themBaiHat(self, baiHat: DTOBaiHat):
-        if self.baiHatDAL.themBaiHat(baiHat) == "Thành công":
-            danhSachMaCaSi = [int(caSi.split('-')[0]) for caSi in baiHat.getCaSi()]
-            for maCaSi in danhSachMaCaSi:
-                self.baiHatDAL.themThucHien(baiHat.getMaBaiHat(), maCaSi)
-
-            return "Thành công"
-        
-        return "Tên bài hát đã tồn tại"
+        if self.baiHatDAL.kiem_tra_trung_bai_hat(baiHat) == "Hợp lệ":
+            if self.baiHatDAL.themBaiHat(baiHat) == "Thành công":
+                danhSachMaCaSi = [int(caSi.split('-')[0]) for caSi in baiHat.getCaSi()]
+                for maCaSi in danhSachMaCaSi:
+                    self.baiHatDAL.themThucHien(baiHat.getMaBaiHat(), maCaSi)
+                return "Thành công"
+        return "Phiên bản bài hát đã tồn tại"
     def xoaBaiHat(self, maBaiHat: int):
         return self.baiHatDAL.xoaBaiHat(maBaiHat)
     def layTenTheLoai(self):

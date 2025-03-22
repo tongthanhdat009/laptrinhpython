@@ -12,7 +12,9 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 from DTO.DTOBaiHat import DTOBaiHat
 from BLL.BLLQuanLy import BLLQuanLy
 class GUIThemBaiHat(QDialog):
-    def __init__(self):
+    def __init__(self,parent,DSNhac):
+        self.DSNhac = DSNhac
+        self.parent = parent
         super().__init__()
         self.duong_dan_anh = ""
         self.bll = BLLQuanLy()
@@ -243,6 +245,8 @@ class GUIThemBaiHat(QDialog):
             result = self.bll.themBaiHat(bai_hat)
             if result == "Thành công":
                 self.show_info_message("Thông báo", "Thêm bài hát thành công!")
+                self.DSNhac.append(bai_hat)
+                self.parent.layDSNhac()
             else:
                 self.show_info_message("Lỗi", result)
         else:
