@@ -1,12 +1,23 @@
 from datetime import date, datetime
 
 class DTODanhSachPhatHeThong:
-    def __init__(self, MaDanhSachPhat: int, TieuDe: str, MoTa: str, NgayTao: date, Anh: str):
-        self._MaDanhSachPhatHeThong = MaDanhSachPhat
+    def __init__(self, MaDanhSachPhatHeThong: int, TieuDe: str, MoTa: str, NgayTao: date, TrangThai:bool, Anh: str):
+        self._MaDanhSachPhatHeThong = MaDanhSachPhatHeThong
         self._TieuDe = TieuDe
         self._MoTa = MoTa
         self._NgayTao = NgayTao if NgayTao else date.today()
+        self.TrangThai = TrangThai
         self._Anh = Anh
+
+    @property
+    def TrangThai(self):
+        return self._TrangThai
+    def TrangThai(self, value):
+        if isinstance(value, bool):
+            self._TrangThai = value
+        else:
+            raise ValueError("Trạng thái phải là kiểu boolean.")
+
 
     # Getter và Setter cho MaDanhSachPhat
     @property

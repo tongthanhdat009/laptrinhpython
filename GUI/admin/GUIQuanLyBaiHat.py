@@ -144,7 +144,8 @@ class GUIQuanLyBaiHat(QWidget):
             self.table.setItem(row, 0, item_id)
 
             # Lấy đường dẫn ảnh từ SQL và xử lý
-            duong_dan_sql = baiHat.getAnh().lstrip("\\/")  # Xóa dấu '\' hoặc '/' đầu chuỗi nếu có
+            anh_bai_hat = baiHat.getAnh()
+            duong_dan_sql = anh_bai_hat.lstrip("\\/") if anh_bai_hat else ""
 
             # Hiển thị ảnh trong QLabel
             label_image = QLabel()
