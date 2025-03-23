@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 21, 2025 lúc 08:26 AM
+-- Thời gian đã tạo: Th3 23, 2025 lúc 04:43 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.0.30
+-- Phiên bản PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,6 +27,10 @@ SET time_zone = "+00:00";
 -- Cấu trúc bảng cho bảng `baihat`
 --
 
+DROP DATABASE IF EXISTS phatnhac;
+CREATE DATABASE phatnhac;
+USE phatnhac;
+
 CREATE TABLE `baihat` (
   `MaBaiHat` int(11) NOT NULL,
   `NgayPhatHanh` date DEFAULT NULL,
@@ -42,7 +46,7 @@ CREATE TABLE `baihat` (
 --
 
 INSERT INTO `baihat` (`MaBaiHat`, `NgayPhatHanh`, `TieuDe`, `AnhBaiHat`, `MaXuatXu`, `MaTheLoai`, `FileNhac`) VALUES
-(1, '2017-01-01', 'Nơi Này Có Anh', '/assets/AnhBaiHat/1.png', 1, 1, 'laptrinhpython/\\assets\\FileNhac\\1.mp3'),
+(1, '2017-01-01', 'Nơi Này Có Anh', '/assets/AnhBaiHat/1.png', 1, 1, '..\\assets\\FileNhac\\1.mp3'),
 (2, '2018-05-01', 'Chạy Ngay Đi', '/assets/AnhBaiHat/2.png', 1, 1, '..\\assets\\FileNhac\\2.mp3'),
 (3, '2019-03-01', 'Có Chắc Yêu Là Đây', '/assets/AnhBaiHat/3.png', 1, 1, '..\\assets\\FileNhac\\3.mp3'),
 (4, '2020-01-01', 'Muộn Rồi Mà Sao Còn', '/assets/AnhBaiHat/4.png', 1, 1, '..\\assets\\FileNhac\\4.mp3'),
@@ -112,6 +116,28 @@ CREATE TABLE `chitietdanhsachphathethong` (
   `MaDanhSachPhatHeThong` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `chitietdanhsachphathethong`
+--
+
+INSERT INTO `chitietdanhsachphathethong` (`MaBaiHat`, `MaDanhSachPhatHeThong`) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 1),
+(8, 1),
+(9, 1),
+(10, 1),
+(11, 1),
+(11, 2),
+(12, 1),
+(13, 1),
+(14, 1),
+(24, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -138,8 +164,17 @@ CREATE TABLE `danhsachphathethong` (
   `TieuDe` varchar(255) DEFAULT NULL,
   `MoTa` varchar(255) DEFAULT NULL,
   `NgayTao` date DEFAULT NULL,
-  `Anh` blob DEFAULT NULL
+  `TrangThai` tinyint(1) NOT NULL DEFAULT 0,
+  `Anh` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `danhsachphathethong`
+--
+
+INSERT INTO `danhsachphathethong` (`MaDanhSachPhatHeThong`, `TieuDe`, `MoTa`, `NgayTao`, `TrangThai`, `Anh`) VALUES
+(1, '99%', 'Em xi cây', '2025-03-21', 0, 'assets\\DanhSachPhatHeThong\\1.jpg'),
+(2, 'The Wxrdie', 'quá dữ', '2025-03-22', 0, 'assets\\DanhSachPhatHeThong\\2.png');
 
 -- --------------------------------------------------------
 
@@ -414,7 +449,7 @@ ALTER TABLE `yeuthich`
 -- AUTO_INCREMENT cho bảng `baihat`
 --
 ALTER TABLE `baihat`
-  MODIFY `MaBaiHat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `MaBaiHat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT cho bảng `casi`
@@ -432,7 +467,7 @@ ALTER TABLE `danhsachphat`
 -- AUTO_INCREMENT cho bảng `danhsachphathethong`
 --
 ALTER TABLE `danhsachphathethong`
-  MODIFY `MaDanhSachPhatHeThong` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MaDanhSachPhatHeThong` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `nguoidung`
