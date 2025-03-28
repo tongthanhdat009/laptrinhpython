@@ -50,7 +50,13 @@ class AdminMenu(QWidget):
         self.btn_create_playlist.clicked.connect(lambda: switch_callback("GUIQuanLyNguoiDung"))
         layout.addWidget(self.btn_create_playlist)
 
-
+        # Nút Quản lý thể loại 
+        self.btn_manage_genres = QPushButton("Quản lý thể loại")
+        self.btn_manage_genres.setStyleSheet("font-weight: bold; color: gray; font-size: 16px; text-align: left; padding: 5px;")
+        self.btn_manage_genres.setFixedHeight(45)
+        self.btn_manage_genres.clicked.connect(lambda: switch_callback("GUIQuanLyTheLoai"))
+        layout.addWidget(self.btn_manage_genres)
+        
         frame.setLayout(layout)  # Gán layout cho QFrame
 
         main_layout = QVBoxLayout(self)
