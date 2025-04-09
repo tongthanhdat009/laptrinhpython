@@ -1,4 +1,5 @@
 from DTO.DTOBaiHat import DTOBaiHat
+from DTO.DTOCaSi import DTOCaSi
 from DAL.dbconnector import Database
 import datetime
 class DALBaiHat:
