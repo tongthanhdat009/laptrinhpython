@@ -1,5 +1,8 @@
 from DAL.DALQuanLyBaiHat import DALBaiHat
+from DAL.DALCaSi import DALCaSi
 from DTO.DTOBaiHat import DTOBaiHat
+from DTO.DTOCaSi import DTOCaSi
+
 class BLLQuanLy:
     def __init__(self):
         self.baiHatDAL = DALBaiHat()
