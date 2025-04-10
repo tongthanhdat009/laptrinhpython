@@ -185,7 +185,7 @@ class DALQuanLyDanhSachPhatHeThong:
     def lay_bai_hat_theo_danh_sach_he_thong(self, id_danh_sach_phat: int):
         try:
             query = """
-                SELECT TH.MaBaiHat, BH.TieuDe, BH.AnhBaiHat, TH.MaCaSi, CaSi.TenCaSi 
+                SELECT TH.MaBaiHat, BH.TieuDe, BH.AnhBaiHat, TH.MaCaSi, CaSi.TenCaSi, BH.FileNhac
                 FROM BaiHat BH 
                 JOIN ChiTietDanhSachPhatHeThong CT ON BH.MaBaiHat = CT.MaBaiHat 
                 JOIN DanhSachPhatHeThong DSP ON CT.MaDanhSachPhatHeThong = DSP.MaDanhSachPhatHeThong 
@@ -223,7 +223,7 @@ class DALQuanLyDanhSachPhatHeThong:
                         "TenXuatXu": None,  # Không có trong truy vấn
                         "MaTheLoai": None,  # Không có trong truy vấn
                         "TenTheLoai": None,  # Không có trong truy vấn
-                        "FileNhac": None,  # Không có trong truy vấn
+                        "FileNhac": row["FileNhac"],  # Không có trong truy vấn
                         "CaSi": []
                     }
                 

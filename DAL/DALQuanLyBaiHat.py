@@ -26,6 +26,7 @@ class DALBaiHat:
             )
             danhSachBaiHat.append(baiHat)
         return danhSachBaiHat
+    
     def layTenCaSi(self, MaBaiHat: str):
         query = """
             SELECT CaSi.MaCaSi, CaSi.TenCaSi 
@@ -176,3 +177,18 @@ class DALBaiHat:
         except Exception as e:
             print("Lỗi khi xóa bản ghi trong ThucHien:", e)
             return "Thất bại"
+        
+    def layBaiHatVoiXuatXu(self, maXuatXu: int):
+        try:
+            query = """
+                SELECT baihat.*, xuatxu.TenXuatXu
+                FROM baihat
+	            LEFT JOIN xuatxu ON baihat.MaXuatXu = xuatxu.MaXuatXu
+                WHERE xuatxu.MaXuatXu= %s
+            """
+            self.cursor.execute(query, (maXuatXu,))
+            results = self.cursor.fetchall()
+            return results
+        except Exception as e:
+            print("Lỗi khi lấy bài hát:", e)
+            return []
