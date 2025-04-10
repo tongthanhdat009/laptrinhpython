@@ -1,5 +1,8 @@
 from DAL.DALQuanLyBaiHat import DALBaiHat
+from DAL.DALCaSi import DALCaSi
 from DTO.DTOBaiHat import DTOBaiHat
+from DTO.DTOCaSi import DTOCaSi
+
 class BLLQuanLy:
     def __init__(self):
         self.baiHatDAL = DALBaiHat()
@@ -27,9 +30,23 @@ class BLLQuanLy:
                     self.baiHatDAL.themThucHien(baiHat.getMaBaiHat(), maCaSi)
                 return "Thành công"
         return "Phiên bản bài hát đã tồn tại"
+        
     def xoaBaiHat(self, maBaiHat: int):
         return self.baiHatDAL.xoaBaiHat(maBaiHat)
+        
     def layTenTheLoai(self):
         return self.baiHatDAL.layTenTheLoai()
+        
     def layTenXuatXu(self):
         return self.baiHatDAL.layTenXuatXu()
+     def layDanhSachCaSi(self):
+        return self.caSiDAL.layDanhSachCaSi()
+        
+    def themCaSi(self, caSi: DTOCaSi):
+        return self.caSiDAL.themCaSi(caSi)
+        
+    def xoaCaSi(self, maCaSi: int):
+        return self.caSiDAL.xoaCaSi(maCaSi)
+        
+    def capNhatCaSi(self, caSi: DTOCaSi):
+        return self.caSiDAL.capNhatCaSi(caSi)
