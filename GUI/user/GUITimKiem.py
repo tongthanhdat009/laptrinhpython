@@ -102,6 +102,10 @@ class GUITimKiem(QWidget):
         main_layout.addWidget(self.results_tab)
         
         self.setLayout(main_layout)
+        
+        # Thực hiện tìm kiếm nếu có nội dung tìm kiếm ban đầu
+        if hasattr(self, 'pending_search') and self.pending_search:
+            self.perform_search()
     
     def create_search_section(self):
         # Tạo phần tìm kiếm gồm ô nhập và nút tìm kiếm
@@ -129,11 +133,12 @@ class GUITimKiem(QWidget):
         self.search_input.textChanged.connect(self.on_search_input_changed)
         search_input_layout.addWidget(self.search_input)
         
-        # Set text cho search input nếu có
+       # Set text cho search input nếu có
         if self.search_content:
             self.search_input.setText(self.search_content)
-            # Thực hiện tìm kiếm ngay lập tức nếu có nội dung tìm kiếm
-            self.perform_search()
+            self.pending_search = True
+        else:
+            self.pending_search = False
         
         # Nút tìm kiếm
         search_button = QPushButton("Tìm kiếm")
@@ -745,7 +750,15 @@ class GUITimKiem(QWidget):
     def perform_search(self):
         # Hàm thực hiện tìm kiếm dựa trên các điều kiện đã chọn
         search_text = self.search_input.text().lower()
-        filter_option = self.filter_combo.currentText()
+        
+        # Kiểm tra xem các thành phần UI đã được khởi tạo chưa
+        if not hasattr(self, 'songs_list') or not hasattr(self, 'artists_list') or not hasattr(self, 'playlists_list'):
+            # Các thành phần UI chưa được khởi tạo, lưu lại yêu cầu tìm kiếm để thực hiện sau
+            self.pending_search = True
+            return
+            
+        # Các thành phần UI đã sẵn sàng, tiến hành tìm kiếm
+        filter_option = self.filter_combo.currentText() if hasattr(self, 'filter_combo') else "Tất cả"
         
         # Tìm kiếm bài hát
         if filter_option in ["Tất cả", "Bài hát"]:
