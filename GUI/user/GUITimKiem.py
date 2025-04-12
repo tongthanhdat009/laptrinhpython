@@ -17,6 +17,7 @@ from BLL.BLLQuanLyDanhSachPhatHeThong import BLLQuanLyDanhSachPhatHeThong
 class GUITimKiem(QWidget):
     def __init__(self, search_content=""):
         super().__init__()
+        print(search_content)
         # Khởi tạo các đối tượng quản lý dữ liệu
         self.BLLQuanLy = BLLQuanLy()
         self.BLLQuanLyDanhSachPhatHeThong = BLLQuanLyDanhSachPhatHeThong()

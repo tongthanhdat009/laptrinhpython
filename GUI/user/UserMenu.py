@@ -50,9 +50,6 @@ class UserMenu(QWidget):
         self.btn_home = create_button("Trang Chủ", "assets/icon/home.png", "GUITrangChu")
         layout.addWidget(self.btn_home)
 
-        self.btn_search = create_button("Tìm Kiếm", "assets/icon/search.png", "GUITimKiem")
-        layout.addWidget(self.btn_search)
-
         self.btn_chart = create_button("BXH Bài Hát", "assets/icon/chart.png", "GUIBXHBaiHat")
         layout.addWidget(self.btn_chart)
 

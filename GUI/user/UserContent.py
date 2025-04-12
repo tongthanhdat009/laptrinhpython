@@ -27,7 +27,7 @@ class UserContent(QWidget):
         content_layout.setSpacing(0)  # Đặt khoảng cách giữa các phần tử là 0
 
         # Truyền callback switch_content vào UserHeader để xử lý việc chuyển trang
-        self.header = UserHeader(user, switch_content)  
+        self.header = UserHeader(user,self.switch_content_search ,switch_content)  
         content_layout.addWidget(self.header)  # Thêm header vào layout
 
         # Tạo QStackedWidget để chứa các trang
@@ -61,6 +61,10 @@ class UserContent(QWidget):
 
         self.switch_content = switch_content  # Lưu callback để gọi khi chuyển đổi nội dung
 
+    def switch_content_search(self, search_text):
+        self.gui_timkiem = GUITimKiem(search_text)
+        self.stacked_widget.setCurrentWidget(self.gui_timkiem)
+        
     def switch_content_user(self, page):
         # Chuyển sang trang tương ứng trong stacked_widget
         if page == "GUITrangChu":
@@ -73,8 +77,6 @@ class UserContent(QWidget):
             self.stacked_widget.setCurrentWidget(self.gui_baihat_yeuthich)
         elif page == "GUIDanhSachPhat":
             self.stacked_widget.setCurrentWidget(self.gui_danhsach_phat)
-        elif page == "GUITimKiem":
-            self.stacked_widget.setCurrentWidget(self.gui_timkiem)
         else:
             # Nếu không tìm thấy trang phù hợp, chuyển về một trang mặc định hoặc hiển thị thông báo
             self.stacked_widget.setCurrentWidget(self.gui_trangchu)
