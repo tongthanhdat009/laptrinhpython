@@ -21,10 +21,10 @@ class BaiHatItem(QWidget):
         anhLabel = QLabel()
         try:
             anh_path = self.bai_hat_data.get('AnhBaiHat', '')
-            print(f"Debug - Đường dẫn ảnh: {anh_path}")
+            # print(f"Debug - Đường dẫn ảnh: {anh_path}")
             # Tạo đường dẫn tuyệt đối từ đường dẫn tương đối
             base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
-            print(f"Debug - Thư mục gốc: {base_dir}")
+            # print(f"Debug - Thư mục gốc: {base_dir}")
             
             if anh_path:
                 # Xử lý đường dẫn để loại bỏ dấu / ở đầu nếu có
@@ -32,38 +32,38 @@ class BaiHatItem(QWidget):
                     anh_path = anh_path[1:]
                 
                 # In ra đường dẫn sau khi xử lý để debug
-                print(f"Debug - Đường dẫn ảnh sau khi xử lý: {anh_path}")
+                # print(f"Debug - Đường dẫn ảnh sau khi xử lý: {anh_path}")
                 
                 # Tạo đường dẫn tuyệt đối từ gốc dự án
                 full_path = os.path.join(base_dir, anh_path)
-                print(f"Debug - Đường dẫn đầy đủ: {full_path}")
+                # print(f"Debug - Đường dẫn đầy đủ: {full_path}")
                 
                 if os.path.exists(full_path):
                     pixmap = QPixmap(full_path)
-                    print(f"Debug - Đã tìm thấy ảnh tại: {full_path}")
+                    # print(f"Debug - Đã tìm thấy ảnh tại: {full_path}")
                 else:
                     # Thử tìm trong thư mục assets của dự án
                     default_img = os.path.join(base_dir, "assets", "AnhBaiHat", "0.png")
-                    print(f"Debug - Không tìm thấy ảnh tại {full_path}")
-                    print(f"Debug - Thử tìm ảnh mặc định tại: {default_img}")
+                    # print(f"Debug - Không tìm thấy ảnh tại {full_path}")
+                    # print(f"Debug - Thử tìm ảnh mặc định tại: {default_img}")
                     
                     if os.path.exists(default_img):
                         pixmap = QPixmap(default_img)
-                        print(f"Debug - Đã tìm thấy ảnh mặc định")
+                        # print(f"Debug - Đã tìm thấy ảnh mặc định")
                     else:
-                        print(f"Debug - Không tìm thấy ảnh mặc định, tạo ảnh trống")
+                        # print(f"Debug - Không tìm thấy ảnh mặc định, tạo ảnh trống")
                         pixmap = QPixmap(70, 70)
                         pixmap.fill(QColor('#cccccc'))
             else:
                 # Nếu không có đường dẫn ảnh
                 default_img = os.path.join(base_dir, "assets", "AnhBaiHat", "0.png")
-                print(f"Debug - Không có đường dẫn ảnh, sử dụng ảnh mặc định: {default_img}")
+                # print(f"Debug - Không có đường dẫn ảnh, sử dụng ảnh mặc định: {default_img}")
                 
                 if os.path.exists(default_img):
                     pixmap = QPixmap(default_img)
-                    print(f"Debug - Đã tìm thấy ảnh mặc định")
+                    # print(f"Debug - Đã tìm thấy ảnh mặc định")
                 else:
-                    print(f"Debug - Không tìm thấy ảnh mặc định, tạo ảnh trống")
+                    # print(f"Debug - Không tìm thấy ảnh mặc định, tạo ảnh trống")
                     pixmap = QPixmap(70, 70)
                     pixmap.fill(QColor('#cccccc'))
                     
@@ -217,43 +217,3 @@ class BaiHatXuatXuView(QWidget):
         palette.setColor(QPalette.ColorRole.Window, QColor(245, 245, 250))
         self.setPalette(palette)
         self.setAutoFillBackground(True)
-
-
-# Ví dụ sử dụng
-if __name__ == "__main__":
-    import sys
-    from PyQt6.QtWidgets import QApplication
-    
-    app = QApplication(sys.argv)
-    
-    # Dữ liệu mẫu
-    mock_data = [
-        {
-            'MaBaiHat': 1,
-            'TieuDe': 'Hoa Nở Không Màu',
-            'Anh': 'assets/AnhBaiHat/1.png',
-            'NgayPhatHanh': datetime(2020, 5, 15),
-            'TenXuatXu': 'Việt Nam'
-        },
-        {
-            'MaBaiHat': 2,
-            'TieuDe': 'Từng Quen',
-            'Anh': 'assets/AnhBaiHat/2.png',
-            'NgayPhatHanh': datetime(2021, 3, 20),
-            'TenXuatXu': 'Việt Nam'
-        },
-        {
-            'MaBaiHat': 3,
-            'TieuDe': 'Waiting For You',
-            'Anh': 'assets/AnhBaiHat/3.png',
-            'NgayPhatHanh': datetime(2022, 8, 12),
-            'TenXuatXu': 'Việt Nam'
-        }
-    ]
-    
-    window = BaiHatXuatXuView("Việt Nam", mock_data)
-    window.setWindowTitle("Bài hát theo xuất xứ")
-    window.setGeometry(100, 100, 800, 600)
-    window.show()
-    
-    sys.exit(app.exec())

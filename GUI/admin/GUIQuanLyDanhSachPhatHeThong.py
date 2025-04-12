@@ -146,8 +146,8 @@ class GUIQuanLyDanhSachPhatHeThong(QWidget):
         for row_idx, ds_phat in enumerate(danh_sach):
             self._tao_cot_thong_tin(row_idx, ds_phat)
             self._tao_cot_anh(row_idx, ds_phat.Anh)
-            self._tao_nut_chi_tiet(row_idx, ds_phat.MaDanhSachPhat)
-            self._tao_nut_xoa(row_idx, ds_phat.MaDanhSachPhat)
+            self._tao_nut_chi_tiet(row_idx, ds_phat.MaDanhSachPhatHeThong)
+            self._tao_nut_xoa(row_idx, ds_phat.MaDanhSachPhatHeThong)
 
     def _tao_cot_thong_tin(self, row_idx, ds_phat):
         # Hàm trợ giúp để tạo item căn giữa
@@ -157,7 +157,7 @@ class GUIQuanLyDanhSachPhatHeThong(QWidget):
             return item
         
         # Thiết lập các cột thông tin
-        self.table.setItem(row_idx, 0, center_item(ds_phat.MaDanhSachPhat))
+        self.table.setItem(row_idx, 0, center_item(ds_phat.MaDanhSachPhatHeThong))
         self.table.setItem(row_idx, 2, center_item(ds_phat.TieuDe))
         
         # Mô tả có thể để mặc định hoặc căn giữa tùy bạn
@@ -350,8 +350,8 @@ class GUIQuanLyDanhSachPhatHeThong(QWidget):
         for row_idx, ds_phat in enumerate(danh_sach):
             self._tao_cot_thong_tin(row_idx, ds_phat)
             self._tao_cot_anh(row_idx, ds_phat.Anh)
-            self._tao_nut_chi_tiet(row_idx, ds_phat.MaDanhSachPhat)
-            self._tao_nut_xoa(row_idx, ds_phat.MaDanhSachPhat)
+            self._tao_nut_chi_tiet(row_idx, ds_phat.MaDanhSachPhatHeThong)
+            self._tao_nut_xoa(row_idx, ds_phat.MaDanhSachPhatHeThong)
     
     def refresh(self):
         self.search_title.clear()

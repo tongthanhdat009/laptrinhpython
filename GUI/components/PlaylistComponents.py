@@ -179,7 +179,7 @@ class DanhSachPhatSection(QWidget):
     def lay_danh_sach_bai_hat(self):
         try:
             # Lấy toàn bộ danh sách bài hát (không giới hạn số lượng)
-            self.danhSachBaiHat = self.bll.lay_danh_sach_bai_hat_theo_ma_danh_sach(self.danhSachPhat._MaDanhSachPhatHeThong)
+            self.danhSachBaiHat = self.bll.lay_danh_sach_bai_hat_theo_ma_danh_sach(self.danhSachPhat.MaDanhSachPhatHeThong)
             print(f"Tổng số bài hát trong danh sách: {len(self.danhSachBaiHat)}")
         except Exception as e:
             print(f"Lỗi khi lấy danh sách bài hát: {e}")
@@ -194,8 +194,8 @@ class DanhSachPhatSection(QWidget):
         
         # Widget hiển thị ảnh
         anhLabel = QLabel()
-        if self.danhSachPhat._Anh and os.path.exists(self.danhSachPhat._Anh):
-            pixmap = QPixmap(self.danhSachPhat._Anh)
+        if self.danhSachPhat.Anh and os.path.exists(self.danhSachPhat.Anh):
+            pixmap = QPixmap(self.danhSachPhat.Anh)
         else:
             # Sử dụng ảnh mặc định nếu không tìm thấy
             base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
@@ -214,16 +214,16 @@ class DanhSachPhatSection(QWidget):
         infoLayout = QVBoxLayout()
         
         # Tiêu đề
-        tieuDeLabel = QLabel(self.danhSachPhat._TieuDe)
+        tieuDeLabel = QLabel(self.danhSachPhat.TieuDe)
         tieuDeLabel.setStyleSheet("font-weight: bold; font-size: 24px; color: #333;")
         
         # Mô tả
-        moTaLabel = QLabel(self.danhSachPhat._MoTa)
+        moTaLabel = QLabel(self.danhSachPhat.MoTa)
         moTaLabel.setStyleSheet("font-size: 14px; color: #555;")
         moTaLabel.setWordWrap(True)
         
         # Ngày tạo
-        ngayTaoLabel = QLabel(f"Ngày tạo: {self.danhSachPhat._NgayTao.strftime('%d/%m/%Y')}")
+        ngayTaoLabel = QLabel(f"Ngày tạo: {self.danhSachPhat.NgayTao.strftime('%d/%m/%Y')}")
         ngayTaoLabel.setStyleSheet("font-size: 12px; color: #888;")
         
         # Button phát tất cả
@@ -296,8 +296,8 @@ class DanhSachPhatSection(QWidget):
     def playAllButtonClicked(self):
         try:
             # Lấy danh sách bài hát từ danh sách phát
-            if hasattr(self.danhSachPhat, '_MaDanhSachPhatHeThong'):
-                ma_danh_sach = self.danhSachPhat._MaDanhSachPhatHeThong
+            if hasattr(self.danhSachPhat, 'MaDanhSachPhatHeThong'):
+                ma_danh_sach = self.danhSachPhat.MaDanhSachPhatHeThong
                 print(f"Đang phát tất cả bài hát trong danh sách: {ma_danh_sach}")
                 lay_danh_sach_bai_hat = self.bll.lay_danh_sach_bai_hat_theo_ma_danh_sach(ma_danh_sach)
                 print(f"Tổng số bài hát trong danh sách: {len(lay_danh_sach_bai_hat)}")

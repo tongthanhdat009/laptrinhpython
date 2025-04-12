@@ -7,13 +7,13 @@ from .GUIBXHBaiHat import GUIBXHBaiHat
 from .GUILichSuNghe import GUILichSuNghe
 from .GUIBaiHatYeuThich import GUIBaiHatYeuThich
 from .GUIDanhSachPhat import GUIDanhSachPhat
-
+from .GUITimKiem import GUITimKiem
 class UserContent(QWidget):
     def __init__(self, user: DTONguoiDung, switch_content):
         super().__init__()
         self.setFixedSize(1500, 650)
         self.setStyleSheet("background-color: #ffffff; margin: 0; padding: 0;")  # Đặt màu nền trắng và không có margin, padding
-
+        
         layout = QHBoxLayout()  # Sử dụng QHBoxLayout để chia màn hình thành 2 phần
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)  # Đặt khoảng cách giữa các phần tử là 0
@@ -27,8 +27,8 @@ class UserContent(QWidget):
         content_layout.setSpacing(0)  # Đặt khoảng cách giữa các phần tử là 0
 
         # Truyền callback switch_content vào UserHeader để xử lý việc chuyển trang
-        header = UserHeader(user, switch_content)  
-        content_layout.addWidget(header)  # Thêm header vào layout
+        self.header = UserHeader(user, switch_content)  
+        content_layout.addWidget(self.header)  # Thêm header vào layout
 
         # Tạo QStackedWidget để chứa các trang
         self.stacked_widget = QStackedWidget()
@@ -48,6 +48,9 @@ class UserContent(QWidget):
 
         self.gui_danhsach_phat = GUIDanhSachPhat()  
         self.stacked_widget.addWidget(self.gui_danhsach_phat)
+        
+        self.gui_timkiem = GUITimKiem()  
+        self.stacked_widget.addWidget(self.gui_timkiem)
 
         # Thêm stacked_widget vào layout
         content_layout.addWidget(self.stacked_widget)
@@ -70,6 +73,8 @@ class UserContent(QWidget):
             self.stacked_widget.setCurrentWidget(self.gui_baihat_yeuthich)
         elif page == "GUIDanhSachPhat":
             self.stacked_widget.setCurrentWidget(self.gui_danhsach_phat)
+        elif page == "GUITimKiem":
+            self.stacked_widget.setCurrentWidget(self.gui_timkiem)
         else:
             # Nếu không tìm thấy trang phù hợp, chuyển về một trang mặc định hoặc hiển thị thông báo
             self.stacked_widget.setCurrentWidget(self.gui_trangchu)

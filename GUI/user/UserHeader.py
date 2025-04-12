@@ -1,14 +1,16 @@
 import sys
 import os
 from PyQt6.QtWidgets import QWidget, QLabel, QHBoxLayout, QLineEdit, QPushButton
-from PyQt6.QtCore import Qt, QSize
+from PyQt6.QtCore import Qt, QSize, pyqtSignal
 from PyQt6.QtGui import QPixmap, QIcon
 
 # Thêm dòng này để sửa lỗi không tìm thấy DTO
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 from DTO.DTONguoiDung import DTONguoiDung  # Import từ DTO
-
+from GUI.user.GUITimKiem import GUITimKiem  # Import GUITimKiem
 class UserHeader(QWidget):
+    search_signal = pyqtSignal(str)  # Tạo tín hiệu để truyền chuỗi tìm kiếm
+    
     def __init__(self, user: DTONguoiDung, switch_callback):
         super().__init__()
         self.setFixedHeight(70)  # Đặt chiều cao header là 70px
@@ -18,25 +20,35 @@ class UserHeader(QWidget):
             border: none;  /* No border */
             margin: 0;  /* Đặt margin-bottom cho header */
         """)
-
+        self.search_text = ""  # Lưu biến tìm kiếm để sử dụng sau này
+        
         layout = QHBoxLayout(self)  # Đặt layout trực tiếp vào widget chính
 
         # Thanh tìm kiếm với icon trong placeholder
-        search_bar = QLineEdit(self)
-        search_bar.setPlaceholderText("🔍 Tìm kiếm...")  # Sử dụng biểu tượng Unicode cho icon tìm kiếm
-        search_bar.setStyleSheet("""
-            padding: 10px;
-            font-size: 14px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            color: #333;  /* Màu chữ trong thanh tìm kiếm */
-            margin-left: 100px;  /* Thêm khoảng cách bên trái */
+        self.search_bar = QLineEdit(self)
+        self.search_bar.setPlaceholderText("🔍 Tìm kiếm...")  # Sử dụng biểu tượng Unicode cho icon tìm kiếm
+        self.search_bar.setStyleSheet("""
+            QLineEdit {
+                padding: 10px;
+                font-size: 14px;
+                background-color: #f0f0f0;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                color: #333;  /* Màu chữ trong thanh tìm kiếm */
+                margin-left: 100px;  /* Thêm khoảng cách bên trái */
+            }
+            QLineEdit:focus {
+                border: 2px solid #1db954;  /* Viền xanh lá khi focus */
+                background-color: white;  /* Nền trắng khi focus */
+            }
         """)
-        search_bar.setFixedWidth(600)  # Đặt chiều rộng cho thanh tìm kiếm dài hơn
-
+        self.search_bar.setFixedWidth(600)  # Đặt chiều rộng cho thanh tìm kiếm dài hơn
+        
+        # Kết nối sự kiện returnPressed (nhấn Enter) với hàm xử lý tìm kiếm
+        self.search_bar.returnPressed.connect(self.handle_search)
+        
         # Thêm thanh tìm kiếm vào layout
-        layout.addWidget(search_bar)  # Thêm thanh tìm kiếm trực tiếp vào layout chính
+        layout.addWidget(self.search_bar)  # Thêm thanh tìm kiếm trực tiếp vào layout chính
 
         # Layout con chứa admin button, avatar, và tên người dùng
         user_layout = QHBoxLayout()
@@ -101,3 +113,8 @@ class UserHeader(QWidget):
         layout.addLayout(user_layout)  # Thêm layout con vào layout chính
 
         self.setLayout(layout)  # Đặt layout cho toàn bộ widget
+
+    def handle_search(self):
+        """Xử lý khi người dùng nhấn Enter trong thanh tìm kiếm"""
+        self.search_text = self.search_bar.text().strip()  # Lấy văn bản từ thanh tìm kiếm
+    

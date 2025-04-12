@@ -6,7 +6,7 @@ from DTO.DTOCaSi import DTOCaSi
 class BLLQuanLy:
     def __init__(self):
         self.baiHatDAL = DALBaiHat()
-
+        self.caSiDAL = DALCaSi()
     def layDanhSachBaiHat(self):
         dsBaiHat = self.baiHatDAL.layTatCaBaiHat()
 
@@ -39,7 +39,7 @@ class BLLQuanLy:
         
     def layTenXuatXu(self):
         return self.baiHatDAL.layTenXuatXu()
-     def layDanhSachCaSi(self):
+    def layDanhSachCaSi(self):
         return self.caSiDAL.layDanhSachCaSi()
         
     def themCaSi(self, caSi: DTOCaSi):

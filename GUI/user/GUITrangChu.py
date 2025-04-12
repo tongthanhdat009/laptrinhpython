@@ -44,6 +44,7 @@ class GUITrangChu(QWidget):
         scrollLayout = QVBoxLayout(scrollContent)
         
         # Load danh sách phát
+        self.loadDanhSachPhatGoiY(scrollLayout)
         self.loadDanhSachPhat(scrollLayout)
         self.loadDanhSachPhatTheoXuatXu(scrollLayout)
         
@@ -52,6 +53,12 @@ class GUITrangChu(QWidget):
 
         # Cài đặt layout cho QWidget
         self.setLayout(mainLayout)
+
+    def loadDanhSachPhatGoiY(self, layout):
+        # Tạo tiêu đề phần xuất xứ
+        titleLabel = QLabel("Gợi ý cho bạn")
+        titleLabel.setStyleSheet("font-size: 24px; font-weight: bold; color: #333; margin-top: 30px;")
+        layout.addWidget(titleLabel)
 
     def loadDanhSachPhatTheoXuatXu(self, layout):
         xuat_xu_list = ["Việt Nam", "Hàn Quốc", "US-UK"]
@@ -103,6 +110,10 @@ class GUITrangChu(QWidget):
             
             
     def loadDanhSachPhat(self, layout):
+        # Tạo tiêu đề phần xuất xứ
+        titleLabel = QLabel("Danh sách mới")
+        titleLabel.setStyleSheet("font-size: 24px; font-weight: bold; color: #333; margin-top: 30px;")
+        layout.addWidget(titleLabel)
         try:
             danhSachPhat = self.bllDSPHT.lay_danh_sach_phat_he_thong()
             
@@ -126,7 +137,7 @@ class GUITrangChu(QWidget):
                 return
             
             # Sắp xếp danh sách phát theo ngày tạo từ mới nhất đến cũ nhất
-            visible_playlists.sort(key=lambda x: x._NgayTao, reverse=True)
+            visible_playlists.sort(key=lambda x: x.NgayTao, reverse=True)
             
             # Thêm từng danh sách phát có TrangThai = 1 vào layout
             for playlist in visible_playlists:
