@@ -27,7 +27,7 @@ class MusicPlayerBar(QWidget):
 
         # Label hiển thị ảnh bài hát
         self.image_label = QLabel()
-        pixmap = QPixmap("assets/AnhBaiHat/1.png")
+        pixmap = QPixmap("assets/AnhBaiHat/0.png")
         scaled_pixmap = pixmap.scaled(90, 90, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
         self.image_label.setPixmap(scaled_pixmap)
         self.image_label.setFixedSize(90, 90)
