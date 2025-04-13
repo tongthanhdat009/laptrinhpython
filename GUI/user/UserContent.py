@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QStackedWidget, Q
 from user.UserMenu import UserMenu
 from user.UserHeader import UserHeader
 from DTO.DTONguoiDung import DTONguoiDung
-from .GUITrangChu import GUITrangChu  # Import các trang giao diện
+from .GUITrangChu import GUITrangChu  
 from .GUIBXHBaiHat import GUIBXHBaiHat
 from .GUILichSuNghe import GUILichSuNghe
 from .GUIBaiHatYeuThich import GUIBaiHatYeuThich
@@ -12,29 +12,25 @@ class UserContent(QWidget):
     def __init__(self, user: DTONguoiDung, switch_content):
         super().__init__()
         self.setFixedSize(1500, 650)
-        self.setStyleSheet("background-color: #ffffff; margin: 0; padding: 0;")  # Đặt màu nền trắng và không có margin, padding
-        
-        layout = QHBoxLayout()  # Sử dụng QHBoxLayout để chia màn hình thành 2 phần
+        self.setStyleSheet("background-color: #ffffff; margin: 0; padding: 0;")  
+        layout = QHBoxLayout()  
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(0)  # Đặt khoảng cách giữa các phần tử là 0
+        layout.setSpacing(0) 
 
-        # Truyền callback switch_content_user vào UserMenu
         self.menu = UserMenu(self.switch_content_user)
-        layout.addWidget(self.menu, 1)  # Phần menu chiếm 1 phần không gian
+        layout.addWidget(self.menu, 1)
 
         content_layout = QVBoxLayout()
         content_layout.setContentsMargins(0, 0, 0, 0)
-        content_layout.setSpacing(0)  # Đặt khoảng cách giữa các phần tử là 0
+        content_layout.setSpacing(0) 
 
-        # Truyền callback switch_content vào UserHeader để xử lý việc chuyển trang
         self.header = UserHeader(user,self.switch_content_search ,switch_content)  
-        content_layout.addWidget(self.header)  # Thêm header vào layout
+        content_layout.addWidget(self.header) 
 
-        # Tạo QStackedWidget để chứa các trang
         self.stacked_widget = QStackedWidget()
         
-        # Tạo các trang và thêm vào stacked_widget
-        self.gui_trangchu = GUITrangChu()  # Giả sử bạn đã có class GUITrangChu
+
+        self.gui_trangchu = GUITrangChu() 
         self.stacked_widget.addWidget(self.gui_trangchu)
 
         self.gui_bxh_baihat = GUIBXHBaiHat()  
@@ -52,14 +48,14 @@ class UserContent(QWidget):
         self.gui_timkiem = GUITimKiem()  
         self.stacked_widget.addWidget(self.gui_timkiem)
 
-        # Thêm stacked_widget vào layout
+
         content_layout.addWidget(self.stacked_widget)
 
-        layout.addLayout(content_layout, 4)  # Phần nội dung chiếm phần không gian còn lại
+        layout.addLayout(content_layout, 4)   
 
         self.setLayout(layout)
 
-        self.switch_content = switch_content  # Lưu callback để gọi khi chuyển đổi nội dung
+        self.switch_content = switch_content  
 
     def switch_content_search(self, search_text):
         self.gui_timkiem = GUITimKiem(search_text)

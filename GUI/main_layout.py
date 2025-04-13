@@ -41,11 +41,10 @@ class MainLayout(QWidget):
         elif page == "Admin":
             # Tạo lại AdminContent nếu chuyển sang Admin
             self.content = AdminContent(self.switch_content)
-
-        # Thêm widget vào center_layout
         self.center_layout.addWidget(self.content)
-        print(f"Switching to {page} content")
-
+        
+    def switch_songs(self, songs):
+        self.player_widget.update_songs(songs)
 # Chạy ứng dụng
 if __name__ == "__main__":
     app = QApplication([])
