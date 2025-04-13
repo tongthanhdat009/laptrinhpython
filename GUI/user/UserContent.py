@@ -58,9 +58,16 @@ class UserContent(QWidget):
         self.switch_content = switch_content  
 
     def switch_content_search(self, search_text):
-        self.gui_timkiem = GUITimKiem(search_text)
-        self.stacked_widget.setCurrentWidget(self.gui_timkiem)
+        # Xóa widget tìm kiếm cũ nếu có
+        old_widget = self.stacked_widget.widget(5)  # Vị trí 5 là widget tìm kiếm
+        if old_widget:
+            self.stacked_widget.removeWidget(old_widget)
         
+        # Tạo widget tìm kiếm mới và thêm vào stack
+        self.gui_timkiem = GUITimKiem(search_text)
+        self.stacked_widget.insertWidget(5, self.gui_timkiem)
+        self.stacked_widget.setCurrentWidget(self.gui_timkiem)
+
     def switch_content_user(self, page):
         # Chuyển sang trang tương ứng trong stacked_widget
         if page == "GUITrangChu":
