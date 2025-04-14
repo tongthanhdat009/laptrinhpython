@@ -12,10 +12,11 @@ from BLL.BLLQuanLyDanhSachPhatHeThong import BLLQuanLyDanhSachPhatHeThong
 from BLL.BLLTrangChu import BLLTrangChu
 
 class GUITrangChu(QWidget):
-    def __init__(self):
+    def __init__(self, load_songs):
         super().__init__()
         self.bllDSPHT = BLLQuanLyDanhSachPhatHeThong()
         self.bll = BLLTrangChu()
+        self.load_songs = load_songs  # Lưu hàm phát nhạc vào biến instance
         self.setupUI()
         
     def setupUI(self):
@@ -84,7 +85,7 @@ class GUITrangChu(QWidget):
                     
                     if danh_sach_bai_hat and len(danh_sach_bai_hat) > 0:
                         # Thêm component hiển thị danh sách bài hát theo xuất xứ
-                        section = BaiHatXuatXuView(ten_xuat_xu, danh_sach_bai_hat)
+                        section = BaiHatXuatXuView(ten_xuat_xu, danh_sach_bai_hat,self.load_songs)
                         layout.addWidget(section)
                         displayed_count += 1
             
@@ -141,7 +142,7 @@ class GUITrangChu(QWidget):
             
             # Thêm từng danh sách phát có TrangThai = 1 vào layout
             for playlist in visible_playlists:
-                section = DanhSachPhatSection(playlist)
+                section = DanhSachPhatSection(playlist, self.load_songs)
                 layout.addWidget(section)
                     
             layout.addStretch()

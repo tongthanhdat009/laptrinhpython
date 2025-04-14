@@ -11,10 +11,14 @@ import datetime  # Thêm import cho datetime
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 class GUIXemThongTinCaSi(QDialog):
-    def __init__(self, parent=None, ca_si=None, danh_sach_bai_hat=None):
+    def __init__(self, parent=None, ca_si=None, danh_sach_bai_hat=None, load_songs=None):
         super().__init__(parent)
         self.ca_si = ca_si
         self.danh_sach_bai_hat = danh_sach_bai_hat if danh_sach_bai_hat else []
+            # Lưu và kiểm tra load_songs
+        if load_songs is None:
+            print("Cảnh báo: load_songs không được cung cấp trong GUIXemThongTinCaSi")
+        self.load_songs = load_songs
         
         # Thiết lập cửa sổ
         self.setWindowTitle(f"Thông Tin Ca Sĩ - {ca_si.getNgheDanh() if ca_si else ''}")
@@ -412,7 +416,7 @@ class GUIXemThongTinCaSi(QDialog):
                     }
                 """)
                 play_button.setCursor(Qt.CursorShape.PointingHandCursor)
-                play_button.clicked.connect(lambda checked=False, s=bai_hat: self.play_song(s))
+                play_button.clicked.connect(lambda checked=False, s=bai_hat: self.play_song(song=s))
                 
                 item_layout.addWidget(play_button)
                 
@@ -468,10 +472,12 @@ class GUIXemThongTinCaSi(QDialog):
         
         self.setLayout(main_layout)
     
-    def play_song(self, song):
+    def play_song(self, song, load_songs=None):
         """Xử lý khi người dùng nhấn nút phát bài hát"""
-        print(f"Đang phát bài hát: {song.getTieuDe()}")
-        # TODO: Thêm code để phát nhạc thực tế ở đây
+        if self.parent() and hasattr(self.parent(), 'load_songs'):
+            self.parent().load_songs([song])
+        else:
+            print("Không thể truy cập hàm load_songs từ parent")
     
     def get_artist_image_path(self, ca_si):
         """Lấy đường dẫn ảnh ca sĩ từ thuộc tính của đối tượng"""

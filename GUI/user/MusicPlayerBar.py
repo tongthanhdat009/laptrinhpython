@@ -262,10 +262,22 @@ class MusicPlayerBar(QWidget):
 
 
     def load_song_list(self, songs):
-        self.songs = songs
+        self.songs = []
+
+        for song in songs:
+            # Xử lý bỏ dấu / nếu có ở đầu
+            if song.getAnh().startswith("/"):
+                song.setAnh(song.getAnh()[1:])
+
+            if song.getFileNhac().startswith("/"):
+                song.setFileNhac(song.getFileNhac()[1:])
+
+            self.songs.append(song)
+
         self.current_index = 0
         if self.songs:
             self.update_song(self.songs[0])
+
 
     def toggle_play_pause(self):
         self.is_playing = not self.is_playing
@@ -348,12 +360,12 @@ if __name__ == "__main__":
         MaBaiHat=1,
         NgayPhatHanh="2023-01-01",
         TieuDe="Nơi này có anh",
-        Anh="assets/AnhBaiHat/1.png",
+        Anh="/assets/AnhBaiHat/1.png",
         MaXuatXu=1,
         TenXuatXu="Việt Nam",
         MaTheLoai=2,
         TenTheLoai="Pop",
-        FileNhac="assets/FileNhac/1.mp3",
+        FileNhac="/assets/FileNhac/1.mp3",
         CaSi=["Sơn Tùng MTP", "Jack"]
     )
 
@@ -361,12 +373,12 @@ if __name__ == "__main__":
         MaBaiHat=2,
         NgayPhatHanh="2022-12-15",
         TieuDe="Đừng lo",
-        Anh="assets/AnhBaiHat/2.png",
+        Anh="/assets/AnhBaiHat/2.png",
         MaXuatXu=2,
         TenXuatXu="Hàn Quốc",
         MaTheLoai=3,
         TenTheLoai="R&B",
-        FileNhac="assets/FileNhac/2.mp3",
+        FileNhac="/assets/FileNhac/2.mp3",
         CaSi=["IU", "G-Dragon"]
     )
 
@@ -374,12 +386,12 @@ if __name__ == "__main__":
         MaBaiHat=3,
         NgayPhatHanh="2023-03-10",
         TieuDe="Shape of You",
-        Anh="assets/AnhBaiHat/3.png",
+        Anh="/assets/AnhBaiHat/3.png",
         MaXuatXu=3,
         TenXuatXu="UK",
         MaTheLoai=1,
         TenTheLoai="Pop",
-        FileNhac="assets/FileNhac/3.mp3",
+        FileNhac="/assets/FileNhac/3.mp3",
         CaSi=["Ed Sheeran"]
     )
 

@@ -182,9 +182,11 @@ class DALBaiHat:
     def layBaiHatVoiXuatXu(self, maXuatXu: int):
         try:
             query = """
-                SELECT baihat.*, xuatxu.TenXuatXu
+                SELECT baihat.*, xuatxu.TenXuatXu, casi.*
                 FROM baihat
-	            LEFT JOIN xuatxu ON baihat.MaXuatXu = xuatxu.MaXuatXu
+	            JOIN xuatxu ON baihat.MaXuatXu = xuatxu.MaXuatXu
+                JOIN thuchien ON baihat.MaBaiHat = thuchien.MaBaiHat
+                JOIN casi ON casi.MaCaSi = thuchien.MaCaSi
                 WHERE xuatxu.MaXuatXu= %s
             """
             self.cursor.execute(query, (maXuatXu,))

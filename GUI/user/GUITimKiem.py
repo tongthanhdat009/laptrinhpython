@@ -13,15 +13,20 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 # Import các lớp BLL cần thiết
 from BLL.BLLQuanLy import BLLQuanLy
 from BLL.BLLQuanLyDanhSachPhatHeThong import BLLQuanLyDanhSachPhatHeThong
+from GUI.user.GUIXemThongTinCaSi import GUIXemThongTinCaSi
 
 class GUITimKiem(QWidget):
-    def __init__(self, search_content=""):
+    def __init__(self, search_content="", load_songs=None):
         super().__init__()
         print(search_content)
         # Khởi tạo các đối tượng quản lý dữ liệu
         self.BLLQuanLy = BLLQuanLy()
         self.BLLQuanLyDanhSachPhatHeThong = BLLQuanLyDanhSachPhatHeThong()
         self.search_content = search_content
+        # Lưu và kiểm tra load_songs
+        if load_songs is None:
+            print("GUITK: load_songs không được cung cấp trong GUIXemThongTinCaSi")
+        self.load_songs = load_songs
         
         # Lấy dữ liệu ban đầu
         self.danh_sach_bai_hat = self.BLLQuanLy.layDanhSachBaiHat()
@@ -134,7 +139,7 @@ class GUITimKiem(QWidget):
         search_input_layout.addWidget(self.search_input)
         
        # Set text cho search input nếu có
-        if self.search_content:
+        if self.search_content and isinstance(self.search_content, str):
             self.search_input.setText(self.search_content)
             self.pending_search = True
         else:
@@ -643,9 +648,6 @@ class GUITimKiem(QWidget):
     def view_artist_info(self, artist):
         """Xử lý khi người dùng nhấn nút xem thông tin ca sĩ"""
         try:
-            # Import giao diện thông tin ca sĩ
-            from GUI.user.GUIXemThongTinCaSi import GUIXemThongTinCaSi
-            
             # Hiển thị dialog thông tin ca sĩ
             dialog = GUIXemThongTinCaSi(parent=self, ca_si=artist, danh_sach_bai_hat=self.danh_sach_bai_hat)
             dialog.setWindowModality(Qt.WindowModality.ApplicationModal)
@@ -656,14 +658,52 @@ class GUITimKiem(QWidget):
 
     def play_song(self, song):
         """Xử lý khi người dùng nhấn nút phát bài hát"""
-        print(f"Đang phát bài hát: {song.getTieuDe()}")
-        # TODO: Thêm code để phát nhạc thực tế ở đây
-        # Ví dụ: gọi đến BLL để xử lý việc phát nhạc
+        array = [song]
+        # for cs in song.getCaSi():
+        #     cs_list = []
+        #     cs_list.append(cs["TenCaSi"])
+        #     song.setCaSi(cs_list)
+        self.load_songs(array)
     
     def play_playlist(self, playlist):
         """Xử lý khi người dùng nhấn nút phát playlist"""
-        print(f"Đang phát playlist: {playlist.TieuDe}")
-        # TODO: Thêm code để phát playlist thực tế ở đây
+        try:
+            # Kiểm tra load_songs có tồn tại không
+            if self.load_songs is None:
+                print("Không thể phát playlist: Hàm load_songs chưa được thiết lập")
+                return
+                
+            # Lấy danh sách bài hát từ danh sách phát
+            if hasattr(playlist, 'MaDanhSachPhatHeThong'):
+                ma_danh_sach = playlist.MaDanhSachPhatHeThong
+                print(f"Đang phát tất cả bài hát trong danh sách: {ma_danh_sach}")
+                
+                # Lấy danh sách bài hát từ BLL
+                bll = BLLQuanLyDanhSachPhatHeThong()
+                danh_sach_bai_hat = bll.lay_danh_sach_bai_hat_theo_ma_danh_sach(ma_danh_sach)
+                
+                if danh_sach_bai_hat and len(danh_sach_bai_hat) > 0:
+                    print(f"Đã tìm thấy {len(danh_sach_bai_hat)} bài hát trong danh sách")
+                    # Chuyển đổi TenCaSi từ dict sang list string nếu cần
+                    for song in danh_sach_bai_hat:
+                        if hasattr(song, 'getCaSi') and callable(getattr(song, 'getCaSi')):
+                            ca_si_list = song.getCaSi()
+                            if ca_si_list and isinstance(ca_si_list[0], dict):
+                                cs_list = []
+                                for cs in ca_si_list:
+                                    cs_list.append(cs["TenCaSi"])
+                                song.setCaSi(cs_list)
+                    
+                    # Phát danh sách bài hát
+                    self.load_songs(danh_sach_bai_hat)
+                else:
+                    print(f"Không tìm thấy bài hát nào trong danh sách phát {ma_danh_sach}")
+            else:
+                print("Playlist không có mã danh sách phát")
+        except Exception as e:
+            print(f"Lỗi khi phát playlist: {e}")
+            import traceback
+            traceback.print_exc()
 
     def populate_initial_data(self):
         # Khởi tạo dữ liệu ban đầu cho các danh sách

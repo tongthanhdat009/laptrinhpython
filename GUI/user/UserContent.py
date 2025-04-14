@@ -9,7 +9,7 @@ from .GUIBaiHatYeuThich import GUIBaiHatYeuThich
 from .GUIDanhSachPhat import GUIDanhSachPhat
 from .GUITimKiem import GUITimKiem
 class UserContent(QWidget):
-    def __init__(self, user: DTONguoiDung, switch_content):
+    def __init__(self, user: DTONguoiDung, switch_content, load_songs):
         super().__init__()
         self.setFixedSize(1500, 650)
         self.setStyleSheet("background-color: #ffffff; margin: 0; padding: 0;")  
@@ -17,6 +17,8 @@ class UserContent(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0) 
 
+        self.load_songs = load_songs  # Lưu hàm phát nhạc vào biến instance
+        
         self.menu = UserMenu(self.switch_content_user)
         layout.addWidget(self.menu, 1)
 
@@ -30,7 +32,7 @@ class UserContent(QWidget):
         self.stacked_widget = QStackedWidget()
         
 
-        self.gui_trangchu = GUITrangChu() 
+        self.gui_trangchu = GUITrangChu(load_songs) 
         self.stacked_widget.addWidget(self.gui_trangchu)
 
         self.gui_bxh_baihat = GUIBXHBaiHat()  
@@ -45,7 +47,7 @@ class UserContent(QWidget):
         self.gui_danhsach_phat = GUIDanhSachPhat()  
         self.stacked_widget.addWidget(self.gui_danhsach_phat)
         
-        self.gui_timkiem = GUITimKiem()  
+        self.gui_timkiem = GUITimKiem(load_songs=self.load_songs)  
         self.stacked_widget.addWidget(self.gui_timkiem)
 
 
@@ -64,7 +66,7 @@ class UserContent(QWidget):
             self.stacked_widget.removeWidget(old_widget)
         
         # Tạo widget tìm kiếm mới và thêm vào stack
-        self.gui_timkiem = GUITimKiem(search_text)
+        self.gui_timkiem = GUITimKiem(search_content=search_text, load_songs=self.load_songs)
         self.stacked_widget.insertWidget(5, self.gui_timkiem)
         self.stacked_widget.setCurrentWidget(self.gui_timkiem)
 
