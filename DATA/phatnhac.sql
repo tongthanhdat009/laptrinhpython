@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 23, 2025 lúc 04:43 PM
+-- Thời gian đã tạo: Th4 16, 2025 lúc 01:59 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.2.12
+-- Phiên bản PHP: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,10 +27,6 @@ SET time_zone = "+00:00";
 -- Cấu trúc bảng cho bảng `baihat`
 --
 
-DROP DATABASE IF EXISTS phatnhac;
-CREATE DATABASE phatnhac;
-USE phatnhac;
-
 CREATE TABLE `baihat` (
   `MaBaiHat` int(11) NOT NULL,
   `NgayPhatHanh` date DEFAULT NULL,
@@ -46,26 +42,26 @@ CREATE TABLE `baihat` (
 --
 
 INSERT INTO `baihat` (`MaBaiHat`, `NgayPhatHanh`, `TieuDe`, `AnhBaiHat`, `MaXuatXu`, `MaTheLoai`, `FileNhac`) VALUES
-(1, '2017-01-01', 'Nơi Này Có Anh', '/assets/AnhBaiHat/1.png', 1, 1, '..\\assets\\FileNhac\\1.mp3'),
-(2, '2018-05-01', 'Chạy Ngay Đi', '/assets/AnhBaiHat/2.png', 1, 1, '..\\assets\\FileNhac\\2.mp3'),
-(3, '2019-03-01', 'Có Chắc Yêu Là Đây', '/assets/AnhBaiHat/3.png', 1, 1, '..\\assets\\FileNhac\\3.mp3'),
-(4, '2020-01-01', 'Muộn Rồi Mà Sao Còn', '/assets/AnhBaiHat/4.png', 1, 1, '..\\assets\\FileNhac\\4.mp3'),
-(5, '2021-06-01', 'Chúng Ta Không Thuộc Về Nhau', '/assets/AnhBaiHat/5.png', 1, 1, '..\\assets\\FileNhac\\5.mp3'),
-(6, '2022-02-01', 'Cơn Mưa Ngang Qua', '/assets/AnhBaiHat/6.png', 1, 1, '..\\assets\\FileNhac\\6.mp3'),
-(7, '2021-09-04', 'Không Phải Dạng Vừa Đâu', '/assets/AnhBaiHat/7.png', 1, 1, '..\\assets\\FileNhac\\7.mp3'),
-(8, '2018-05-25', 'Hơn Cả Yêu', '/assets/AnhBaiHat/8.png', 1, 1, '..\\assets\\FileNhac\\8.mp3'),
-(9, '2018-06-15', 'Ánh Nắng Của Anh', '/assets/AnhBaiHat/9.png', 1, 1, '..\\assets\\FileNhac\\9.mp3'),
-(10, '2019-03-10', 'Cứ Yêu Đi', '/assets/AnhBaiHat/10.png', 1, 1, '..\\assets\\FileNhac\\10.mp3'),
-(11, '2020-07-30', 'Ta Còn Yêu Nhau', '/assets/AnhBaiHat/11.png', 1, 1, '..\\assets\\FileNhac\\11.mp3'),
-(12, '2021-04-18', 'Năm Ấy', '/assets/AnhBaiHat/12.png', 1, 1, '..\\assets\\FileNhac\\12.mp3'),
-(13, '2017-07-01', 'Em Gái Mưa', '/assets/AnhBaiHat/13.png', 1, 1, '..\\assets\\FileNhac\\13.mp3'),
-(14, '2017-08-01', 'Duyên Mình Lỡ', '/assets/AnhBaiHat/14.png', 1, 1, '..\\assets\\FileNhac\\14.mp3'),
-(15, '2018-03-01', 'Cho Em Gần Anh Thêm Chút Nữa', '/assets/AnhBaiHat/15.png', 1, 1, '..\\assets\\FileNhac\\15.mp3'),
-(21, '2019-08-10', 'Bài này chill phết', '/assets/AnhBaiHat/21.png', 1, 2, '..\\assets\\FileNhac\\21.mp3'),
-(22, '2020-05-15', 'Lối nhỏ', '/assets/AnhBaiHat/22.png', 1, 2, '..\\assets\\FileNhac\\22.mp3'),
-(23, '2021-04-01', 'Ngày khác lạ', '/assets/AnhBaiHat/23.png', 1, 2, '..\\assets\\FileNhac\\23.mp3'),
-(24, '2021-06-30', 'Anh đếch cần gì nhiều ngoài em', '/assets/AnhBaiHat/24.png', 1, 2, '..\\assets\\FileNhac\\24.mp3'),
-(25, '2022-02-20', 'Đưa nhau đi trốn', '/assets/AnhBaiHat/25.png', 1, 2, '..\\assets\\FileNhac\\25.mp3');
+(1, '2017-01-01', 'Nơi Này Có Anh', '/assets/AnhBaiHat/1.png', 1, 1, '/assets/FileNhac/1.mp3'),
+(2, '2018-05-01', 'Chạy Ngay Đi', '/assets/AnhBaiHat/2.png', 1, 1, '/assets/FileNhac/2.mp3'),
+(3, '2019-03-01', 'Có Chắc Yêu Là Đây', '/assets/AnhBaiHat/3.png', 1, 1, '/assets/FileNhac/3.mp3'),
+(4, '2020-01-01', 'Muộn Rồi Mà Sao Còn', '/assets/AnhBaiHat/4.png', 1, 1, '/assets/FileNhac/4.mp3'),
+(5, '2021-06-01', 'Chúng Ta Không Thuộc Về Nhau', '/assets/AnhBaiHat/5.png', 1, 1, '/assets/FileNhac/5.mp3'),
+(6, '2022-02-01', 'Cơn Mưa Ngang Qua', '/assets/AnhBaiHat/6.png', 1, 1, '/assets/FileNhac/6.mp3'),
+(7, '2021-09-04', 'Không Phải Dạng Vừa Đâu', '/assets/AnhBaiHat/7.png', 1, 1, '/assets/FileNhac/7.mp3'),
+(8, '2018-05-25', 'Hơn Cả Yêu', '/assets/AnhBaiHat/8.png', 1, 1, '/assets/FileNhac/8.mp3'),
+(9, '2018-06-15', 'Ánh Nắng Của Anh', '/assets/AnhBaiHat/9.png', 1, 1, '/assets/FileNhac/9.mp3'),
+(10, '2019-03-10', 'Cứ Yêu Đi', '/assets/AnhBaiHat/10.png', 1, 1, '/assets/FileNhac/10.mp3'),
+(11, '2020-07-30', 'Ta Còn Yêu Nhau', '/assets/AnhBaiHat/11.png', 1, 1, '/assets/FileNhac/11.mp3'),
+(12, '2021-04-18', 'Năm Ấy', '/assets/AnhBaiHat/12.png', 1, 1, '/assets/FileNhac/12.mp3'),
+(13, '2017-07-01', 'Em Gái Mưa', '/assets/AnhBaiHat/13.png', 1, 1, '/assets/FileNhac/13.mp3'),
+(14, '2017-08-01', 'Duyên Mình Lỡ', '/assets/AnhBaiHat/14.png', 1, 1, '/assets/FileNhac/14.mp3'),
+(15, '2018-03-01', 'Cho Em Gần Anh Thêm Chút Nữa', '/assets/AnhBaiHat/15.png', 1, 1, '/assets/FileNhac/15.mp3'),
+(21, '2019-08-10', 'Bài này chill phết', '/assets/AnhBaiHat/21.png', 1, 2, '/assets/FileNhac/21.mp3'),
+(22, '2020-05-15', 'Lối nhỏ', '/assets/AnhBaiHat/22.png', 1, 2, '/assets/FileNhac/22.mp3'),
+(23, '2021-04-01', 'Ngày khác lạ', '/assets/AnhBaiHat/23.png', 1, 2, '/assets/FileNhac/23.mp3'),
+(24, '2021-06-30', 'Anh đếch cần gì nhiều ngoài em', '/assets/AnhBaiHat/24.png', 1, 2, '/assets/FileNhac/24.mp3'),
+(25, '2022-02-20', 'Đưa nhau đi trốn', '/assets/AnhBaiHat/25.png', 1, 2, '/assets/FileNhac/25.mp3');
 
 -- --------------------------------------------------------
 
@@ -104,6 +100,13 @@ CREATE TABLE `chitietdanhsachphat` (
   `MaBaiHat` int(11) NOT NULL,
   `MaDanhSachPhat` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `chitietdanhsachphat`
+--
+
+INSERT INTO `chitietdanhsachphat` (`MaBaiHat`, `MaDanhSachPhat`) VALUES
+(2, 2);
 
 -- --------------------------------------------------------
 
@@ -150,8 +153,16 @@ CREATE TABLE `danhsachphat` (
   `MoTa` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `NgayTao` date DEFAULT NULL,
   `MaNguoiDung` int(11) DEFAULT NULL,
-  `Anh` blob DEFAULT NULL
+  `Anh` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `danhsachphat`
+--
+
+INSERT INTO `danhsachphat` (`MaDanhSachPhat`, `TieuDe`, `MoTa`, `NgayTao`, `MaNguoiDung`, `Anh`) VALUES
+(1, 'nhac cua tui', '', '2025-04-16', 1, 'assets/DanhSachPhat/None.png'),
+(2, 'nhac cua tui 2', '', '2025-04-16', 1, 'assets/DanhSachPhat/2.png');
 
 -- --------------------------------------------------------
 
@@ -200,6 +211,166 @@ CREATE TABLE `luotnghe` (
   `MaBaiHat` int(11) DEFAULT NULL,
   `ThoiGian` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `luotnghe`
+--
+
+INSERT INTO `luotnghe` (`MaLuotNghe`, `MaNguoiDung`, `MaBaiHat`, `ThoiGian`) VALUES
+(1, 1, 1, '2025-04-16 18:14:36'),
+(2, 1, 2, '2025-04-16 18:14:37'),
+(3, 1, 1, '2025-04-16 18:42:08'),
+(4, 1, 2, '2025-04-16 18:42:09'),
+(5, 1, 3, '2025-04-16 18:42:09'),
+(6, 1, 4, '2025-04-16 18:42:09'),
+(7, 1, 4, '2025-04-16 18:42:10'),
+(8, 1, 4, '2025-04-16 18:42:10'),
+(9, 1, 4, '2025-04-16 18:42:10'),
+(10, 1, 22, '2025-04-16 18:42:11'),
+(11, 1, 4, '2025-04-16 18:42:13'),
+(12, 1, 22, '2025-04-16 18:42:13'),
+(13, 1, 4, '2025-04-16 18:42:13'),
+(14, 1, 22, '2025-04-16 18:42:14'),
+(15, 1, 4, '2025-04-16 18:42:14'),
+(16, 1, 22, '2025-04-16 18:42:14'),
+(17, 1, 4, '2025-04-16 18:42:15'),
+(18, 1, 22, '2025-04-16 18:42:15'),
+(19, 1, 4, '2025-04-16 18:42:15'),
+(20, 1, 22, '2025-04-16 18:42:16'),
+(21, 1, 4, '2025-04-16 18:42:16'),
+(22, 1, 22, '2025-04-16 18:42:16'),
+(23, 1, 4, '2025-04-16 18:42:17'),
+(24, 1, 22, '2025-04-16 18:42:17'),
+(25, 1, 4, '2025-04-16 18:42:17'),
+(26, 1, 22, '2025-04-16 18:42:18'),
+(27, 1, 4, '2025-04-16 18:42:18'),
+(28, 1, 22, '2025-04-16 18:42:18'),
+(29, 1, 4, '2025-04-16 18:42:19'),
+(30, 1, 22, '2025-04-16 18:42:19'),
+(31, 1, 4, '2025-04-16 18:42:19'),
+(32, 1, 4, '2025-04-16 18:42:20'),
+(33, 1, 4, '2025-04-16 18:42:20'),
+(34, 1, 4, '2025-04-16 18:42:21'),
+(35, 1, 4, '2025-04-16 18:42:21'),
+(36, 1, 4, '2025-04-16 18:42:21'),
+(37, 1, 4, '2025-04-16 18:42:22'),
+(38, 1, 4, '2025-04-16 18:42:23'),
+(39, 1, 4, '2025-04-16 18:42:23'),
+(40, 1, 4, '2025-04-16 18:42:23'),
+(41, 1, 4, '2025-04-16 18:42:24'),
+(42, 1, 4, '2025-04-16 18:42:24'),
+(43, 1, 4, '2025-04-16 18:42:25'),
+(44, 1, 4, '2025-04-16 18:42:26'),
+(45, 1, 4, '2025-04-16 18:42:27'),
+(46, 1, 4, '2025-04-16 18:42:27'),
+(47, 1, 4, '2025-04-16 18:42:27'),
+(48, 1, 22, '2025-04-16 18:42:27'),
+(49, 1, 4, '2025-04-16 18:42:28'),
+(50, 1, 22, '2025-04-16 18:42:29'),
+(51, 1, 4, '2025-04-16 18:42:29'),
+(52, 1, 22, '2025-04-16 18:42:29'),
+(53, 1, 4, '2025-04-16 18:42:30'),
+(54, 1, 22, '2025-04-16 18:42:30'),
+(55, 1, 1, '2025-04-16 18:43:57'),
+(56, 1, 2, '2025-04-16 18:43:59'),
+(57, 1, 3, '2025-04-16 18:43:59'),
+(58, 1, 4, '2025-04-16 18:43:59'),
+(59, 1, 4, '2025-04-16 18:44:00'),
+(60, 1, 4, '2025-04-16 18:44:00'),
+(61, 1, 4, '2025-04-16 18:44:00'),
+(62, 1, 22, '2025-04-16 18:44:00'),
+(63, 1, 4, '2025-04-16 18:44:01'),
+(64, 1, 22, '2025-04-16 18:44:03'),
+(65, 1, 4, '2025-04-16 18:44:03'),
+(66, 1, 22, '2025-04-16 18:44:03'),
+(67, 1, 4, '2025-04-16 18:44:04'),
+(68, 1, 1, '2025-04-16 18:44:21'),
+(69, 1, 2, '2025-04-16 18:44:22'),
+(70, 1, 3, '2025-04-16 18:44:22'),
+(71, 1, 4, '2025-04-16 18:44:22'),
+(72, 1, 4, '2025-04-16 18:44:22'),
+(73, 1, 4, '2025-04-16 18:44:22'),
+(74, 1, 21, '2025-04-16 18:44:22'),
+(75, 1, 22, '2025-04-16 18:44:22'),
+(76, 1, 21, '2025-04-16 18:44:23'),
+(77, 1, 22, '2025-04-16 18:44:24'),
+(78, 1, 21, '2025-04-16 18:44:24'),
+(79, 1, 22, '2025-04-16 18:44:24'),
+(80, 1, 21, '2025-04-16 18:44:25'),
+(81, 1, 22, '2025-04-16 18:44:25'),
+(82, 1, 21, '2025-04-16 18:44:25'),
+(83, 1, 22, '2025-04-16 18:44:25'),
+(84, 1, 21, '2025-04-16 18:44:26'),
+(85, 1, 22, '2025-04-16 18:44:26'),
+(86, 1, 21, '2025-04-16 18:44:26'),
+(87, 1, 22, '2025-04-16 18:44:27'),
+(88, 1, 21, '2025-04-16 18:44:27'),
+(89, 1, 22, '2025-04-16 18:44:27'),
+(90, 1, 21, '2025-04-16 18:44:28'),
+(91, 1, 22, '2025-04-16 18:44:28'),
+(92, 1, 21, '2025-04-16 18:44:29'),
+(93, 1, 4, '2025-04-16 18:44:29'),
+(94, 1, 21, '2025-04-16 18:44:30'),
+(95, 1, 4, '2025-04-16 18:44:30'),
+(96, 1, 21, '2025-04-16 18:44:30'),
+(97, 1, 4, '2025-04-16 18:44:30'),
+(98, 1, 21, '2025-04-16 18:44:32'),
+(99, 1, 22, '2025-04-16 18:44:32'),
+(100, 1, 21, '2025-04-16 18:44:33'),
+(101, 1, 22, '2025-04-16 18:44:33'),
+(102, 1, 21, '2025-04-16 18:44:34'),
+(103, 1, 22, '2025-04-16 18:44:34'),
+(104, 1, 21, '2025-04-16 18:44:34'),
+(105, 1, 22, '2025-04-16 18:44:35'),
+(106, 1, 21, '2025-04-16 18:44:35'),
+(107, 1, 4, '2025-04-16 18:44:36'),
+(108, 1, 4, '2025-04-16 18:44:37'),
+(109, 1, 4, '2025-04-16 18:44:37'),
+(110, 1, 4, '2025-04-16 18:44:37'),
+(111, 1, 4, '2025-04-16 18:44:38'),
+(112, 1, 4, '2025-04-16 18:44:38'),
+(113, 1, 4, '2025-04-16 18:44:39'),
+(114, 1, 21, '2025-04-16 18:44:39'),
+(115, 1, 22, '2025-04-16 18:44:39'),
+(116, 1, 21, '2025-04-16 18:44:40'),
+(117, 1, 22, '2025-04-16 18:44:40'),
+(118, 1, 21, '2025-04-16 18:44:41'),
+(119, 1, 22, '2025-04-16 18:44:41'),
+(120, 1, 21, '2025-04-16 18:44:41'),
+(121, 1, 4, '2025-04-16 18:44:42'),
+(122, 1, 21, '2025-04-16 18:44:43'),
+(123, 1, 4, '2025-04-16 18:44:43'),
+(124, 1, 1, '2025-04-16 18:48:43'),
+(125, 1, 1, '2025-04-16 18:53:32'),
+(126, 1, 2, '2025-04-16 18:53:33'),
+(127, 1, 3, '2025-04-16 18:53:34'),
+(128, 1, 4, '2025-04-16 18:53:34'),
+(129, 1, 4, '2025-04-16 18:53:34'),
+(130, 1, 4, '2025-04-16 18:53:34'),
+(131, 1, 21, '2025-04-16 18:53:35'),
+(132, 1, 22, '2025-04-16 18:53:35'),
+(133, 1, 2, '2025-04-16 18:55:02'),
+(134, 1, 1, '2025-04-16 18:55:10'),
+(135, 1, 1, '2025-04-16 18:55:17'),
+(136, 1, 1, '2025-04-16 18:55:19'),
+(137, 1, 2, '2025-04-16 18:55:19'),
+(138, 1, 4, '2025-04-16 18:55:21'),
+(139, 1, 3, '2025-04-16 18:55:22'),
+(140, 1, 7, '2025-04-16 18:55:23'),
+(141, 1, 7, '2025-04-16 18:55:24'),
+(142, 1, 1, '2025-04-16 18:55:37'),
+(143, 1, 2, '2025-04-16 18:55:38'),
+(144, 1, 1, '2025-04-16 18:55:39'),
+(145, 1, 1, '2025-04-16 18:57:17'),
+(146, 1, 2, '2025-04-16 18:57:20'),
+(147, 1, 3, '2025-04-16 18:57:22'),
+(148, 1, 4, '2025-04-16 18:57:24'),
+(149, 1, 5, '2025-04-16 18:57:25'),
+(150, 1, 7, '2025-04-16 18:57:27'),
+(151, 1, 8, '2025-04-16 18:57:30'),
+(152, 1, 10, '2025-04-16 18:57:38'),
+(153, 1, 11, '2025-04-16 18:57:41'),
+(154, 1, 12, '2025-04-16 18:57:43');
 
 -- --------------------------------------------------------
 
@@ -336,10 +507,18 @@ INSERT INTO `xuatxu` (`MaXuatXu`, `TenXuatXu`) VALUES
 --
 
 CREATE TABLE `yeuthich` (
+  `MaYeuThich` int(11) NOT NULL,
   `MaNguoiDung` int(11) NOT NULL,
   `MaBaiHat` int(11) NOT NULL,
-  `NgayThem` date DEFAULT NULL
+  `NgayThem` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `yeuthich`
+--
+
+INSERT INTO `yeuthich` (`MaYeuThich`, `MaNguoiDung`, `MaBaiHat`, `NgayThem`) VALUES
+(1, 1, 2, '2025-04-16');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -438,8 +617,9 @@ ALTER TABLE `xuatxu`
 -- Chỉ mục cho bảng `yeuthich`
 --
 ALTER TABLE `yeuthich`
-  ADD PRIMARY KEY (`MaNguoiDung`,`MaBaiHat`),
-  ADD KEY `FK_YeuThich_BaiHat` (`MaBaiHat`);
+  ADD PRIMARY KEY (`MaYeuThich`),
+  ADD KEY `MaNguoiDung` (`MaNguoiDung`),
+  ADD KEY `MaBaiHat` (`MaBaiHat`);
 
 --
 -- AUTO_INCREMENT cho các bảng đã đổ
@@ -461,13 +641,19 @@ ALTER TABLE `casi`
 -- AUTO_INCREMENT cho bảng `danhsachphat`
 --
 ALTER TABLE `danhsachphat`
-  MODIFY `MaDanhSachPhat` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MaDanhSachPhat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `danhsachphathethong`
 --
 ALTER TABLE `danhsachphathethong`
   MODIFY `MaDanhSachPhatHeThong` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT cho bảng `luotnghe`
+--
+ALTER TABLE `luotnghe`
+  MODIFY `MaLuotNghe` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
 
 --
 -- AUTO_INCREMENT cho bảng `nguoidung`
@@ -492,6 +678,12 @@ ALTER TABLE `theloai`
 --
 ALTER TABLE `xuatxu`
   MODIFY `MaXuatXu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT cho bảng `yeuthich`
+--
+ALTER TABLE `yeuthich`
+  MODIFY `MaYeuThich` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -554,8 +746,8 @@ ALTER TABLE `thuchien`
 -- Các ràng buộc cho bảng `yeuthich`
 --
 ALTER TABLE `yeuthich`
-  ADD CONSTRAINT `FK_YeuThich_BaiHat` FOREIGN KEY (`MaBaiHat`) REFERENCES `baihat` (`MaBaiHat`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_YeuThich_NguoiDung` FOREIGN KEY (`MaNguoiDung`) REFERENCES `nguoidung` (`MaNguoiDung`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `yeuthich_ibfk_1` FOREIGN KEY (`MaNguoiDung`) REFERENCES `nguoidung` (`MaNguoiDung`),
+  ADD CONSTRAINT `yeuthich_ibfk_2` FOREIGN KEY (`MaBaiHat`) REFERENCES `baihat` (`MaBaiHat`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
