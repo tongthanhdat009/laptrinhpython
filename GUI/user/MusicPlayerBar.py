@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QSlider
-from PyQt6.QtCore import Qt, QSize, QTimer
+from PyQt6.QtCore import Qt, QSize, QTimer, QEvent
 from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtMultimedia import QMediaPlayer, QAudioOutput
@@ -7,10 +7,14 @@ from PyQt6.QtCore import QUrl
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+from GUI.components.ThemVaoDanhSachPhat import ThemVaoDanhSachPhat
 from DTO.DTOBaiHat import DTOBaiHat
+from BLL.BLLPhatNhac import BLLPhatNhac
 class MusicPlayerBar(QWidget):
-    def __init__(self):
+    def __init__(self, IDTaiKhoan):
         super().__init__()
+        self.IDTaiKhoan = IDTaiKhoan
+        self.bll = BLLPhatNhac()
         self.setFixedSize(1500, 100)
         self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground)
         self.setStyleSheet("""
@@ -141,24 +145,27 @@ class MusicPlayerBar(QWidget):
         layout.addLayout(part2_layout, 4)  # Phần 2 chiếm 40% layout
 
         # ==== PHẦN 3: Âm lượng (30%) ====
+        # Layout phần 3 (ví dụ là thanh điều khiển bên phải)
         part3_layout = QHBoxLayout()
-        part3_layout.setContentsMargins(0, 0, 0, 0)  # Đặt margins = 0 để bỏ khoảng cách thừa
-        part3_layout.setSpacing(10) 
+        part3_layout.setContentsMargins(0, 0, 0, 0)  # Bỏ khoảng cách viền
+        part3_layout.setSpacing(10)
 
+        # Icon âm lượng
         part3_layout.addStretch()
         self.volume_icon = QLabel()
         self.volume_icon.setPixmap(QIcon("assets/icon/volume.png").pixmap(22, 22))
 
+        # Thanh trượt âm lượng
         self.volume_slider = QSlider(Qt.Orientation.Horizontal)
         self.volume_slider.setFixedWidth(100)
         self.volume_slider.setStyleSheet("""
             QSlider::groove:horizontal {
                 height: 6px;
-                background: #ccc;  /* Màu nền của groove */
+                background: #ccc;
                 border-radius: 3px;
             }
             QSlider::handle:horizontal {
-                background: #0078d7;  /* Màu của đầu kéo */
+                background: #0078d7;
                 border: none;
                 width: 12px;
                 height: 12px;
@@ -166,18 +173,41 @@ class MusicPlayerBar(QWidget):
                 border-radius: 6px;
             }
             QSlider::sub-page:horizontal {
-                background: #0078d7;  /* Màu phần đã kéo */
+                background: #0078d7;
                 border-radius: 3px;
             }
             QSlider {
-                border: none;  /* Ensure no border */
+                border: none;
             }
         """)
 
+        # Nút trái tim (Yêu thích)
+        # Nút trái tim (Yêu thích)
+        self.like_button = QPushButton()
+        self.like_button.setIcon(QIcon("assets/icon/heart.png"))
+        self.like_button.setIconSize(QSize(25, 25))  # Kích thước icon
+        self.like_button.setFixedSize(34, 34)  # Kích thước nút
+        self.like_button.setStyleSheet("border: none;")
+        self.like_button.setToolTip("Yêu thích")
+
+        # Nút thêm vào danh sách phát (icon)
+        self.add_to_playlist_button = QPushButton()
+        self.add_to_playlist_button.setIcon(QIcon("assets/icon/add-playlist.png"))
+        self.add_to_playlist_button.setIconSize(QSize(28, 28))  # Kích thước icon
+        self.add_to_playlist_button.setFixedSize(34, 34)  # Kích thước nút
+        self.add_to_playlist_button.setStyleSheet("border: none;")
+        self.add_to_playlist_button.setToolTip("Thêm vào danh sách phát")
+        self.popup = ThemVaoDanhSachPhat(self.IDTaiKhoan, self.bll)
+
+        # Thêm các widget vào layout
         part3_layout.addWidget(self.volume_icon)
         part3_layout.addWidget(self.volume_slider)
+        part3_layout.addWidget(self.like_button)
+        part3_layout.addWidget(self.add_to_playlist_button)
 
-        layout.addLayout(part3_layout, 3)  # Phần 3 chiếm 30% layout
+        self.add_to_playlist_button.clicked.connect(self.toggle_playlist_popup)
+        # Thêm part3_layout vào layout chính (layout gốc)
+        layout.addLayout(part3_layout, 3)  # Phần 3 chiếm 30%
 
         self.setLayout(layout)
 
@@ -201,10 +231,24 @@ class MusicPlayerBar(QWidget):
         self.volume_slider.setValue(50)
         self.volume_slider.valueChanged.connect(self.on_volume_changed)
 
+        self.liked = False  # Trạng thái mặc định: chưa like
+        self.like_button.clicked.connect(self.toggle_like)
+
+
     def on_volume_changed(self, value):
         self.audio_output.setVolume(value / 100)
 
     def update_song(self, song):
+        self.bll.luuLichSuNghe(song.getMaBaiHat(), self.IDTaiKhoan)
+        if(self.bll.kiemTraTimBaiHat(self.IDTaiKhoan, song.getMaBaiHat())):
+            self.like_button.setIcon(QIcon("assets/icon/heart_clicked.png"))
+            self.like_button.setToolTip("Đã yêu thích")
+            self.liked = True  # Đánh dấu là đã like
+        else:
+            self.like_button.setIcon(QIcon("assets/icon/heart.png"))
+            self.like_button.setToolTip("Yêu thích")
+            self.liked = False
+
         self.song = song
         self.song_label.setText(f"Tên bài hát: {song.getTieuDe()}")
         self.artist_label.setText(f"Ca sĩ: {', '.join(song.getCaSi())}")
@@ -262,10 +306,22 @@ class MusicPlayerBar(QWidget):
 
 
     def load_song_list(self, songs):
-        self.songs = songs
+        self.songs = []
+
+        for song in songs:
+            # Xử lý bỏ dấu / nếu có ở đầu
+            if song.getAnh().startswith("/"):
+                song.setAnh(song.getAnh()[1:])
+
+            if song.getFileNhac().startswith("/"):
+                song.setFileNhac(song.getFileNhac()[1:])
+
+            self.songs.append(song)
+
         self.current_index = 0
         if self.songs:
             self.update_song(self.songs[0])
+
 
     def toggle_play_pause(self):
         self.is_playing = not self.is_playing
@@ -277,6 +333,16 @@ class MusicPlayerBar(QWidget):
         else:
             self.media_player.pause()
 
+    def toggle_like(self):
+        self.liked = not self.liked
+        if self.liked:
+            self.like_button.setIcon(QIcon("assets/icon/heart_clicked.png"))
+            self.like_button.setToolTip("Đã yêu thích")
+            self.bll.timBaiHat(self.IDTaiKhoan, self.song.getMaBaiHat())
+        else:
+            self.like_button.setIcon(QIcon("assets/icon/heart.png"))
+            self.like_button.setToolTip("Yêu thích")
+            self.bll.huyTimBaiHat(self.IDTaiKhoan, self.song.getMaBaiHat())
 
     def next_song(self):
         if self.songs and self.current_index + 1 < len(self.songs):
@@ -338,6 +404,21 @@ class MusicPlayerBar(QWidget):
                 else:
                     self.next_song()
 
+    def toggle_playlist_popup(self):
+        if self.popup.isVisible():
+            self.popup.hide()
+        else:
+            # Vị trí toàn cục của góc trên trái của nút
+            self.popup.set_id_bai_hat(self.song.getMaBaiHat())
+            button_pos = self.add_to_playlist_button.mapToGlobal(self.add_to_playlist_button.rect().topLeft())
+
+            # Căn giữa theo chiều dọc và nằm bên trái nút
+            popup_x = button_pos.x() - self.popup.width()
+            popup_y = button_pos.y() + (self.add_to_playlist_button.height() - self.popup.height()) // 2
+
+            self.popup.move(popup_x, popup_y)
+            self.popup.show()
+
 
 
 if __name__ == "__main__":
@@ -348,12 +429,12 @@ if __name__ == "__main__":
         MaBaiHat=1,
         NgayPhatHanh="2023-01-01",
         TieuDe="Nơi này có anh",
-        Anh="assets/AnhBaiHat/1.png",
+        Anh="/assets/AnhBaiHat/1.png",
         MaXuatXu=1,
         TenXuatXu="Việt Nam",
         MaTheLoai=2,
         TenTheLoai="Pop",
-        FileNhac="assets/FileNhac/1.mp3",
+        FileNhac="/assets/FileNhac/1.mp3",
         CaSi=["Sơn Tùng MTP", "Jack"]
     )
 
@@ -361,12 +442,12 @@ if __name__ == "__main__":
         MaBaiHat=2,
         NgayPhatHanh="2022-12-15",
         TieuDe="Đừng lo",
-        Anh="assets/AnhBaiHat/2.png",
+        Anh="/assets/AnhBaiHat/2.png",
         MaXuatXu=2,
         TenXuatXu="Hàn Quốc",
         MaTheLoai=3,
         TenTheLoai="R&B",
-        FileNhac="assets/FileNhac/2.mp3",
+        FileNhac="/assets/FileNhac/2.mp3",
         CaSi=["IU", "G-Dragon"]
     )
 
@@ -374,18 +455,78 @@ if __name__ == "__main__":
         MaBaiHat=3,
         NgayPhatHanh="2023-03-10",
         TieuDe="Shape of You",
-        Anh="assets/AnhBaiHat/3.png",
+        Anh="/assets/AnhBaiHat/3.png",
         MaXuatXu=3,
         TenXuatXu="UK",
         MaTheLoai=1,
         TenTheLoai="Pop",
-        FileNhac="assets/FileNhac/3.mp3",
+        FileNhac="/assets/FileNhac/3.mp3",
+        CaSi=["Ed Sheeran"]
+    )
+    demo_bai_hat_4 = DTOBaiHat(
+        MaBaiHat=4,
+        NgayPhatHanh="2023-03-10",
+        TieuDe="Shape of You",
+        Anh="/assets/AnhBaiHat/4.png",
+        MaXuatXu=3,
+        TenXuatXu="UK",
+        MaTheLoai=1,
+        TenTheLoai="Pop",
+        FileNhac="/assets/FileNhac/4.mp3",
+        CaSi=["Ed Sheeran"]
+    )
+    demo_bai_hat_5 = DTOBaiHat(
+        MaBaiHat=4,
+        NgayPhatHanh="2023-03-10",
+        TieuDe="Shape of You",
+        Anh="/assets/AnhBaiHat/5.png",
+        MaXuatXu=3,
+        TenXuatXu="UK",
+        MaTheLoai=1,
+        TenTheLoai="Pop",
+        FileNhac="/assets/FileNhac/5.mp3",
+        CaSi=["Ed Sheeran"]
+    )
+    demo_bai_hat_6 = DTOBaiHat(
+        MaBaiHat=4,
+        NgayPhatHanh="2023-03-10",
+        TieuDe="Shape of You",
+        Anh="/assets/AnhBaiHat/6.png",
+        MaXuatXu=3,
+        TenXuatXu="UK",
+        MaTheLoai=1,
+        TenTheLoai="Pop",
+        FileNhac="/assets/FileNhac/6.mp3",
+        CaSi=["Ed Sheeran"]
+    )
+    demo_bai_hat_7 = DTOBaiHat(
+        MaBaiHat=21,
+        NgayPhatHanh="2023-03-10",
+        TieuDe="Shape of You",
+        Anh="/assets/AnhBaiHat/21.png",
+        MaXuatXu=3,
+        TenXuatXu="UK",
+        MaTheLoai=1,
+        TenTheLoai="Pop",
+        FileNhac="/assets/FileNhac/21.mp3",
+        CaSi=["Ed Sheeran"]
+    )
+    demo_bai_hat_8 = DTOBaiHat(
+        MaBaiHat=22,
+        NgayPhatHanh="2023-03-10",
+        TieuDe="Shape of You",
+        Anh="/assets/AnhBaiHat/22.png",
+        MaXuatXu=3,
+        TenXuatXu="UK",
+        MaTheLoai=1,
+        TenTheLoai="Pop",
+        FileNhac="/assets/FileNhac/22.mp3",
         CaSi=["Ed Sheeran"]
     )
 
-    window = MusicPlayerBar()
+    window = MusicPlayerBar(1)
     # Load 3 bài hát vào player
-    window.load_song_list([demo_bai_hat_1, demo_bai_hat_2, demo_bai_hat_3])
+    window.load_song_list([demo_bai_hat_1, demo_bai_hat_2, demo_bai_hat_3, demo_bai_hat_4, demo_bai_hat_5, demo_bai_hat_6, demo_bai_hat_7, demo_bai_hat_8])
     window.show()
 
     sys.exit(app.exec())

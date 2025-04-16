@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QStackedWidget, Q
 from user.UserMenu import UserMenu
 from user.UserHeader import UserHeader
 from DTO.DTONguoiDung import DTONguoiDung
+from DTO.DTOBaiHat import DTOBaiHat
 from .GUITrangChu import GUITrangChu  
 from .GUIBXHBaiHat import GUIBXHBaiHat
 from .GUILichSuNghe import GUILichSuNghe
@@ -9,7 +10,7 @@ from .GUIBaiHatYeuThich import GUIBaiHatYeuThich
 from .GUIDanhSachPhat import GUIDanhSachPhat
 from .GUITimKiem import GUITimKiem
 class UserContent(QWidget):
-    def __init__(self, user: DTONguoiDung, switch_content):
+    def __init__(self, user: DTONguoiDung, switch_content, load_songs):
         super().__init__()
         self.setFixedSize(1500, 650)
         self.setStyleSheet("background-color: #ffffff; margin: 0; padding: 0;")  

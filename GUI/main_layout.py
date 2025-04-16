@@ -19,15 +19,15 @@ class MainLayout(QWidget):
         self.center_layout.setSpacing(0)
 
         # Nội dung ban đầu là UserContent
-        self.content = UserContent(user, self.switch_content)
+        self.player_widget = MusicPlayerBar(1)
+        self.content = UserContent(user, self.switch_content, self.player_widget.load_song_list)
         self.center_layout.addWidget(self.content)
 
         # Thanh điều khiển âm nhạc
-        player_widget = MusicPlayerBar()
 
         # Thêm vào main_layout
         main_layout.addLayout(self.center_layout)
-        main_layout.addWidget(player_widget)
+        main_layout.addWidget(self.player_widget)
 
         self.setLayout(main_layout)
 
@@ -37,7 +37,7 @@ class MainLayout(QWidget):
 
         if page == "User":
             # Tạo lại UserContent nếu chuyển về User
-            self.content = UserContent(user, self.switch_content)
+            self.content = UserContent(user, self.switch_content, self.player_widget.load_song_list)
         elif page == "Admin":
             # Tạo lại AdminContent nếu chuyển sang Admin
             self.content = AdminContent(self.switch_content)
@@ -52,3 +52,10 @@ if __name__ == "__main__":
     window = MainLayout(user)
     window.show()
     app.exec()
+
+        # self.bllGoiY = BLLGoiY()
+        # self.bllGoiY.layDanhSachNhacGoiY(user_id)
+        # danh_sach_goi_y = self.bllGoiY.layDanhSachNhacGoiY(user_id)
+        # for bai_hat in danh_sach_goi_y:
+        #     label = QLabel(f"{bai_hat.getTieuDe()} - Điểm: {bai_hat.diem}")
+        #     self.layout.addWidget(label)
