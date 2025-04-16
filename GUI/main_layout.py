@@ -20,6 +20,7 @@ class MainLayout(QWidget):
 
         # Nội dung ban đầu là UserContent
         self.player_widget = MusicPlayerBar(1)
+
         self.content = UserContent(user, self.switch_content, self.player_widget.load_song_list)
         self.center_layout.addWidget(self.content)
 

@@ -1,17 +1,19 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QScrollArea, QFrame, QPushButton
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap, QColor, QPalette
+from DTO.DTOBaiHat import DTOBaiHat
+
 import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from datetime import datetime
 
 class BaiHatItem(QWidget):
-    def __init__(self, bai_hat_data):
+    def __init__(self, bai_hat_data, load_songs=None):
         super().__init__()
         self.bai_hat_data = bai_hat_data
+        self.load_songs = load_songs  # Lưu hàm phát nhạc vào biến instance
         self.setupUI()
-        
     def setupUI(self):
         # Layout chính
         mainLayout = QHBoxLayout()
@@ -146,18 +148,31 @@ class BaiHatItem(QWidget):
         """)
     
     def phatBaiHat(self):
-        self.data_bai_hat = self.bai_hat_data.get('FileNhac', '')
-        if self.data_bai_hat:
-            # Thực hiện phát nhạc tại đây
-            print(f"Đang phát bài hát: {self.data_bai_hat}")
-        else:
-            print("Không có dữ liệu bài hát để phát")
+        if self.load_songs is None:
+            print("Lỗi: Không thể phát bài hát vì hàm load_songs chưa được thiết lập")
+            return
+
+        print(self.bai_hat_data)
+        dto = DTOBaiHat(
+                    MaBaiHat=self.bai_hat_data["MaBaiHat"],
+                    NgayPhatHanh=self.bai_hat_data["NgayPhatHanh"],
+                    TieuDe=self.bai_hat_data["TieuDe"],
+                    Anh=self.bai_hat_data["AnhBaiHat"],
+                    MaXuatXu=self.bai_hat_data["MaXuatXu"],
+                    TenXuatXu=self.bai_hat_data["TenXuatXu"],
+                    MaTheLoai=self.bai_hat_data["MaTheLoai"],
+                    TenTheLoai=None,
+                    FileNhac=self.bai_hat_data["FileNhac"],
+                    CaSi=self.bai_hat_data["TenCaSi"]
+                )
+        self.load_songs([dto])
             
 class BaiHatXuatXuView(QWidget):
-    def __init__(self, ten_xuat_xu, danh_sach_bai_hat):
+    def __init__(self, ten_xuat_xu, danh_sach_bai_hat, load_songs=None):
         super().__init__()
         self.ten_xuat_xu = ten_xuat_xu
         self.danh_sach_bai_hat = danh_sach_bai_hat
+        self.load_songs = load_songs  # Lưu hàm phát nhạc vào biến instance
         self.setupUI()
         
     def setupUI(self):
@@ -190,14 +205,15 @@ class BaiHatXuatXuView(QWidget):
         # Thêm các bài hát vào container
         if self.danh_sach_bai_hat:
             for bai_hat in self.danh_sach_bai_hat:
-                bai_hat_item = BaiHatItem(bai_hat)
+                # Truyền load_songs từ BaiHatXuatXuView vào BaiHatItem
+                bai_hat_item = BaiHatItem(bai_hat, self.load_songs)
                 containerLayout.addWidget(bai_hat_item)
         else:
             emptyLabel = QLabel(f"Không có bài hát nào từ xuất xứ: {self.ten_xuat_xu}")
             emptyLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
             emptyLabel.setStyleSheet("font-size: 14px; color: #999; padding: 20px;")
             containerLayout.addWidget(emptyLabel)
-        
+    
         # Thêm container vào scroll area
         scrollArea = QScrollArea()
         scrollArea.setWidgetResizable(True)

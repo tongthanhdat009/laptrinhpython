@@ -7,10 +7,11 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 from BLL.BLLQuanLyDanhSachPhatHeThong import BLLQuanLyDanhSachPhatHeThong
 
 class BaiHatItem(QWidget):
-    def __init__(self, baiHat, index):
+    def __init__(self, baiHat, index, load_songs):
         super().__init__()
         self.baiHat = baiHat
         self.index = index
+        self.load_songs = load_songs
         self.setupUI()
         
     def setupUI(self):
@@ -159,21 +160,23 @@ class BaiHatItem(QWidget):
             }
         """)
     def playButtonClicked(self):
-        try:
-            if hasattr(self.baiHat, 'getFileNhac') and callable(getattr(self.baiHat, 'getFileNhac')):
-                file_path = self.baiHat.getFileNhac()
-                print(f"Đường dẫn file nhạc: {file_path}")
-        except Exception as e:
-            print(f"Lỗi khi lấy file: {e}")
-            ca_si_text = "Unknown Artist"
+        print(self.baiHat.getFileNhac())
+        array = [self.baiHat]
+        cs_list = []
+        for song in self.baiHat.getCaSi():
+            cs_list.append(song["TenCaSi"])
+            print(cs_list)
+        self.baiHat.setCaSi(cs_list)
+        self.load_songs(array)
             
 class DanhSachPhatSection(QWidget):
-    def __init__(self, danhSachPhat):
+    def __init__(self, danhSachPhat, load_songs):
         super().__init__()
         self.danhSachPhat = danhSachPhat
         self.danhSachBaiHat = []
         self.bll = BLLQuanLyDanhSachPhatHeThong()
         self.isShowingAllSongs = False  # Flag để theo dõi trạng thái hiển thị
+        self.load_songs = load_songs  # Lưu hàm phát nhạc vào biến instance
         self.setupUI()
 
     def lay_danh_sach_bai_hat(self):
@@ -299,13 +302,29 @@ class DanhSachPhatSection(QWidget):
             if hasattr(self.danhSachPhat, 'MaDanhSachPhatHeThong'):
                 ma_danh_sach = self.danhSachPhat.MaDanhSachPhatHeThong
                 print(f"Đang phát tất cả bài hát trong danh sách: {ma_danh_sach}")
-                lay_danh_sach_bai_hat = self.bll.lay_danh_sach_bai_hat_theo_ma_danh_sach(ma_danh_sach)
-                print(f"Tổng số bài hát trong danh sách: {len(lay_danh_sach_bai_hat)}")
-                # Thực hiện phát nhạc tại đây
+                
+                # Sử dụng danh sách bài hát đã lấy trước đó để tránh lấy lại
+                if hasattr(self, 'danhSachBaiHat') and self.danhSachBaiHat:
+                    print(f"Sử dụng danh sách đã có với {len(self.danhSachBaiHat)} bài hát")
+                    for song in self.danhSachBaiHat:
+                        cs_list = []
+                        print(f"Đang phát bài hát: {song.getCaSi()}")
+                        for cs in song.getCaSi():
+                            print(cs)
+                            cs_list.append(cs["TenCaSi"])
+                            print(cs_list)
+                        song.setCaSi(cs_list)
+                    self.load_songs(self.danhSachBaiHat)
+                    # Nếu cần, có thể in ra thông tin bài hát                    
+                    # self.danhSachBaiHat[1].getCaSi()
+                else:
+                    print("Không tìm thấy danh sách bài hát đã được lấy trước đó")
             else:
                 print("Không có mã danh sách phát để phát nhạc")
         except Exception as e:
             print(f"Lỗi khi phát tất cả bài hát: {e}")
+            import traceback
+            traceback.print_exc()  # In ra stack trace chi tiết để debug
 
     def displaySongs(self):
         # Xóa tất cả widgets hiện có trong layout
@@ -325,7 +344,7 @@ class DanhSachPhatSection(QWidget):
             # Hiển thị bài hát
             for i in range(displayCount):
                 try:
-                    songItem = BaiHatItem(self.danhSachBaiHat[i], i+1)
+                    songItem = BaiHatItem(self.danhSachBaiHat[i], i+1, self.load_songs)
                     self.songListLayout.addWidget(songItem)
                 except Exception as e:
                     print(f"Lỗi khi thêm bài hát: {e}")
